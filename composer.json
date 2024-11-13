@@ -1,5 +1,5 @@
 {
-    "name": "drupal/drupal-cms-project",
+    "name": "drupal/cms",
     "description": "Drupal with a bunch of useful stuff.",
     "type": "project",
     "license": "GPL-2.0-or-later",
