@@ -95,7 +95,9 @@ class CommandLineInstallTest extends TestCase {
     $process = new Process($command, $this->root, [
       'DRUPAL_DEV_SITE_PATH' => $this->siteDirectory,
     ]);
-    $process->mustRun();
+    // Process uses a default timeout of 60 seconds. $this->drush() disables
+    // it entirely, so do that here too.
+    $process->setTimeout(0)->mustRun();
     $this->assertStringContainsString('Congratulations, you installed Drupal CMS!', $process->getErrorOutput());
 
     // The core install command write-protects the site directory, which
