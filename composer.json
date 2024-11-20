@@ -17,9 +17,9 @@
     "require": {
         "composer/installers": "^2.3",
         "cweagans/composer-patches": "^2",
-        "drupal/core-composer-scaffold": "11.x-dev",
-        "drupal/core-project-message": "11.x-dev",
-        "drupal/core-recommended": "^11.x-dev",
+        "drupal/core-composer-scaffold": "^11.1",
+        "drupal/core-project-message": "^11.1",
+        "drupal/core-recommended": "^11.1",
         "drupal/drupal_cms_starter": "*",
         "drupal/drupal_cms_accessibility_tools": "*",
         "drupal/drupal_cms_blog": "*",
