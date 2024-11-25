@@ -5,21 +5,34 @@ declare(strict_types=1);
 namespace Drupal\drupal_cms_installer;
 
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Decorates the messenger to suppress or alter certain install-time messages.
  */
 final class MessageInterceptor implements MessengerInterface {
 
+  private array $reject = [
+    'Congratulations, you installed @drupal!',
+  ];
+
   public function __construct(
     private readonly MessengerInterface $decorated,
-  ) {}
+  ) {
+    if (getenv('IS_DDEV_PROJECT')) {
+      $this->reject[] = 'All necessary changes to %dir and %file have been made, so you should remove write permissions to them now in order to avoid security risks. If you are unsure how to do so, consult the <a href=":handbook_url">online handbook</a>.';
+    }
+  }
 
   /**
    * {@inheritdoc}
    */
   public function addMessage($message, $type = self::TYPE_STATUS, $repeat = FALSE): static {
-    if (strval($message) !== 'Congratulations, you installed Drupal CMS!') {
+    $raw = $message instanceof TranslatableMarkup
+      ? $message->getUntranslatedString()
+      : strval($message);
+
+    if (!in_array($raw, $this->reject, TRUE)) {
       $this->decorated->addMessage($message, $type, $repeat);
     }
     return $this;
