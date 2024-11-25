@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 use Composer\InstalledVersions;
 use Drupal\Component\Utility\Random;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Installer\Form\SiteConfigureForm;
 use Drupal\Core\Recipe\Recipe;
 use Drupal\Core\Recipe\RecipeRunner;
 use Drupal\drupal_cms_installer\Form\RecipesForm;
 use Drupal\drupal_cms_installer\Form\SiteNameForm;
+use Drupal\drupal_cms_installer\MessageInterceptor;
 
 const SQLITE_DRIVER = 'Drupal\sqlite\Driver\Database\sqlite';
 
@@ -21,6 +23,15 @@ function drupal_cms_installer_install_tasks(): array {
   // not a Composer-managed package.
   \Drupal::service('class_loader')
     ->addPsr4('Drupal\\drupal_cms_installer\\', __DIR__ . '/src');
+
+  // If the container can be altered, wrap the messenger service to suppress
+  // certain messages.
+  $container = \Drupal::getContainer();
+  if ($container instanceof ContainerBuilder) {
+    $container->set('messenger', new MessageInterceptor(
+      \Drupal::messenger(),
+    ));
+  }
 
   return [
     'drupal_cms_installer_uninstall_myself' => [
