@@ -16,7 +16,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('langcode', langcode);
 
-
     return `${window.location.pathname}?${urlParams}`;
   }
 
@@ -85,8 +84,13 @@
    * Let's do this!
    */
   function init() {
-    createElement();
-    setupInteractions();
+    if (drupalSettings.languages) {
+      createElement();
+      setupInteractions();
+    }
+    else {
+      document.querySelector('.cms-installer__language').classList.add('hidden');
+    }
   }
 
   /**
