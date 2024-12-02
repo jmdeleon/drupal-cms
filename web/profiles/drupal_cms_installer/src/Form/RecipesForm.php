@@ -5,6 +5,7 @@ namespace Drupal\drupal_cms_installer\Form;
 use Composer\InstalledVersions;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element\Checkboxes;
 
 /**
  * Provides a form to choose the site template and optional add-on recipes.
@@ -37,8 +38,7 @@ final class RecipesForm extends InstallerFormBase {
       '#prefix' => '<div class="cms-installer__form-group">',
       '#suffix' => '</div>',
       '#type' => 'checkboxes',
-      '#options' => [],
-      '#default_value' => [],
+      '#value_callback' => static::class . '::valueCallback',
     ];
 
     // @todo Remove this try-catch wrapper when all our components are published
@@ -72,10 +72,12 @@ final class RecipesForm extends InstallerFormBase {
         '#type' => 'submit',
         '#value' => $this->t('Next'),
         '#button_type' => 'primary',
+        '#op' => 'submit',
       ],
       'skip' => [
         '#type' => 'submit',
         '#value' => $this->t('Skip this step'),
+        '#op' => 'skip',
       ],
       '#type' => 'actions',
     ];
@@ -90,12 +92,26 @@ final class RecipesForm extends InstallerFormBase {
     $install_state['parameters']['recipes'] = ['drupal_cms_starter'];
 
     $pressed_button = $form_state->getTriggeringElement();
-    // Only choose add-ons if the Next button was pressed.
-    if ($pressed_button && end($pressed_button['#array_parents']) === 'submit') {
+    // Only choose add-ons if the Next button was pressed, or if the form was
+    // submitted programmatically (i.e., by `drush site:install`).
+    if (($pressed_button && $pressed_button['#op'] === 'submit') || $form_state->isProgrammed()) {
       $add_ons = $form_state->getValue('add_ons', []);
       $add_ons = array_filter($add_ons);
       array_push($install_state['parameters']['recipes'], ...array_values($add_ons));
     }
+  }
+
+  public static function valueCallback(&$element, $input, FormStateInterface $form_state): array {
+    // If the input was a comma-separated string or `*`, transform it -- this is
+    // for compatibility with `drush site:install`.
+    if (is_string($input)) {
+      $selections = $input === '*'
+        ? array_keys($element['#options'])
+        : array_map('trim', explode(',', $input));
+
+      $input = array_combine($selections, $selections);
+    }
+    return Checkboxes::valueCallback($element, $input, $form_state);
   }
 
 }

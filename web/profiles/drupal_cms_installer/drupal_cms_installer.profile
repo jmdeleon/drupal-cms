@@ -12,6 +12,7 @@ use Drupal\Core\Recipe\RecipeRunner;
 use Drupal\drupal_cms_installer\Form\RecipesForm;
 use Drupal\drupal_cms_installer\Form\SiteNameForm;
 use Drupal\drupal_cms_installer\MessageInterceptor;
+use Drupal\drupal_cms_installer\RecipeLoader;
 
 const SQLITE_DRIVER = 'Drupal\sqlite\Driver\Database\sqlite';
 
@@ -119,7 +120,13 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
   $cookbook_path .= '/recipes';
 
   foreach ($install_state['parameters']['recipes'] as $recipe) {
-    $recipe = Recipe::createFromDirectory($cookbook_path . '/' . $recipe);
+    $recipe = RecipeLoader::load(
+      $cookbook_path . '/' . $recipe,
+      // Only save a cached copy of the recipe if this environment variable is
+      // set. This allows us to ship a pre-primed cache of recipes to improve
+      // installer performance for first-time users.
+      (bool) getenv('DRUPAL_CMS_INSTALLER_WRITE_CACHE'),
+    );
 
     foreach (RecipeRunner::toBatchOperations($recipe) as $operation) {
       $batch['operations'][] = $operation;
