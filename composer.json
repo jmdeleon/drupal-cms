@@ -21,6 +21,7 @@
         "drupal/core-project-message": "^11.1-rc1",
         "drupal/core-recommended": "^11.1-rc1",
         "drupal/drupal_cms_starter": "*",
+        "drupal/drupal_cms_analytics": "*",
         "drupal/drupal_cms_accessibility_tools": "*",
         "drupal/drupal_cms_blog": "*",
         "drupal/drupal_cms_events": "*",
