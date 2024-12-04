@@ -86,7 +86,12 @@ class InteractiveInstallTest extends InstallerTestBase {
    * {@inheritdoc}
    */
   protected function setUpSite(): void {
-    // The normal site configuration form is bypassed, so we're done.
+    $page = $this->getSession()->getPage();
+    $page->fillField('Email', 'hello@good.bye');
+    $page->fillField('Password', "kitty");
+    $page->pressButton('Finish');
+
+    $this->checkForMetaRefresh();
     $this->isInstalled = TRUE;
   }
 
@@ -108,9 +113,6 @@ class InteractiveInstallTest extends InstallerTestBase {
     $account = User::load(1);
     $this->assertContains($account->getEmail(), $this->config('update.settings')->get('notification.emails'));
     $this->assertContains('administrator', $account->getRoles());
-    // The installer generates a random password, so change that in order to
-    // test logging in.
-    $account->setPassword('pastafazoul')->save();
 
     // The installer should have uninstalled itself.
     // @see drupal_cms_installer_uninstall_myself()
@@ -126,10 +128,12 @@ class InteractiveInstallTest extends InstallerTestBase {
     // Log out so we can test that user 1's credentials were properly saved.
     $this->drupalLogout();
 
-    // It should be possible to log in with your email address.
+    // It should be possible to log in with the credentials we chose in the
+    // installer.
+    // @see ::setUpSite()
     $page = $this->getSession()->getPage();
-    $page->fillField('name', "admin@$host");
-    $page->fillField('pass', 'pastafazoul');
+    $page->fillField('name', "hello@good.bye");
+    $page->fillField('pass', 'kitty');
     $page->pressButton('Log in');
     $assert_session = $this->assertSession();
     $assert_session->addressEquals('/admin/dashboard');
@@ -138,7 +142,7 @@ class InteractiveInstallTest extends InstallerTestBase {
     // It should also be possible to log in with the username, which is
     // defaulted to `admin` by the installer.
     $page->fillField('name', 'admin');
-    $page->fillField('pass', 'pastafazoul');
+    $page->fillField('pass', 'kitty');
     $page->pressButton('Log in');
     $assert_session->addressEquals('/admin/dashboard');
     $this->drupalLogout();

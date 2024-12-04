@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use Composer\InstalledVersions;
-use Drupal\Component\Utility\Random;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\Core\Render\Element\Password;
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
-use Drupal\Core\Installer\Form\SiteConfigureForm;
-use Drupal\Core\Recipe\Recipe;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Recipe\RecipeRunner;
 use Drupal\drupal_cms_installer\Form\RecipesForm;
 use Drupal\drupal_cms_installer\Form\SiteNameForm;
@@ -71,23 +72,44 @@ function drupal_cms_installer_install_tasks_alter(array &$tasks, array $install_
     ],
   ]);
 
+  $configure_form_task = $tasks['install_configure_form'];
+  unset(
+    $tasks['install_install_profile'],
+    $tasks['install_configure_form'],
+  );
+  $insert_before('install_profile_modules', [
+    'install_install_profile' => [
+      'function' => 'drupal_cms_installer_install_myself',
+    ],
+    'install_configure_form' => $configure_form_task,
+  ]);
+
   // Set English as the default language; it can be changed mid-stream. We can't
   // use the passed-in $install_state because it's not passed by reference.
   $GLOBALS['install_state']['parameters'] += ['langcode' => 'en'];
 
-  // Submit the site configuration form programmatically.
-  $tasks['install_configure_form'] = [
-    'function' => 'drupal_cms_installer_configure_site',
-  ];
-
   // Wrap the install_profile_modules() function, which returns a batch job, and
   // add all the necessary operations to apply the chosen template recipe.
   $tasks['install_profile_modules']['function'] = 'drupal_cms_installer_apply_recipes';
+}
 
-  // Since we're using recipes, we can skip `install_profile_themes` and
-  // `install_install_profile`.
-  $tasks['install_profile_themes']['run'] = INSTALL_TASK_SKIP;
-  $tasks['install_install_profile']['run'] = INSTALL_TASK_SKIP;
+/**
+ * Installs the User module, and this profile.
+ *
+ * @param array $install_state
+ *   The current installation state.
+ */
+function drupal_cms_installer_install_myself(array &$install_state): void {
+  // We'll need User installed for the next step, which is configuring the site
+  // and administrator account.
+  \Drupal::service(ModuleInstallerInterface::class)->install([
+    'user',
+  ]);
+  // Officially install this profile so that its behaviors and visual overrides
+  // will be in effect for the remainder of the install process. This also
+  // ensures that the administrator role is created and assigned to user 1 in
+  // the next step.
+  install_install_profile($install_state);
 }
 
 /**
@@ -100,7 +122,84 @@ function drupal_cms_installer_form_install_settings_form_alter(array &$form): vo
   // configuration.
   if (extension_loaded('pdo_sqlite') && array_key_exists(SQLITE_DRIVER, $form['driver']['#options'])) {
     $form['driver']['#default_value'] = SQLITE_DRIVER;
+
+    // The database file path has a sensible default value, so move it into the
+    // advanced options.
+    $form['settings'][SQLITE_DRIVER]['advanced_options']['database'] = $form['settings'][SQLITE_DRIVER]['database'];
+    unset($form['settings'][SQLITE_DRIVER]['database']);
   }
+}
+
+/**
+ * Implements hook_form_alter() for install_configure_form.
+ *
+ * @see \Drupal\Core\Installer\Form\SiteConfigureForm
+ */
+function drupal_cms_installer_form_install_configure_form_alter(array &$form, FormStateInterface $form_state): void {
+  global $install_state;
+
+  $form['#title'] = t('Create your account');
+
+  $form['help'] = [
+    '#prefix' => '<p class="cms-installer__subhead">',
+    '#markup' => t('Creating an account allows you to log in to your site.'),
+    '#suffix' => '</p>',
+    '#weight' => -40,
+  ];
+
+  $form['site_information']['#type'] = 'container';
+  // We collected the site name in a previous step.
+  $form['site_information']['site_name'] = [
+    '#type' => 'hidden',
+    '#default_value' => $GLOBALS['install_state']['parameters']['site_name'],
+  ];
+  // Automatically generate the site email address.
+  $form['site_information']['site_mail'] = [
+    '#type' => 'hidden',
+    '#default_value' => 'no-reply@' . \Drupal::request()->getHost(),
+  ];
+
+  $form['admin_account']['#type'] = 'container';
+  // `admin` is a sensible name for user 1.
+  $form['admin_account']['account']['name'] = [
+    '#type' => 'hidden',
+    '#default_value' => 'admin',
+  ];
+  $form['admin_account']['account']['mail'] = [
+    '#prefix' => '<div class="cms-installer__form-group">',
+    '#suffix' => '</div>',
+    '#type' => 'email',
+    '#title' => t('Email'),
+    '#required' => TRUE,
+    '#default_value' => $install_state['forms']['install_configure_form']['account']['mail'] ?? '',
+    '#weight' => 10,
+  ];
+  $form['admin_account']['account']['pass'] = [
+    '#prefix' => '<div class="cms-installer__form-group">',
+    '#suffix' => '</div>',
+    '#type' => 'password',
+    '#title' => t('Password'),
+    '#description' => t('At least 10 characters, but more is better.'),
+    '#required' => TRUE,
+    '#default_value' => $install_state['forms']['install_configure_form']['account']['pass']['pass1'] ?? '',
+    '#weight' => 20,
+    '#value_callback' => '_drupal_cms_installer_password_value',
+  ];
+
+  // Hide parts of the form we don't care about.
+  $form['regional_settings']['#access'] = FALSE;
+  $form['update_notifications']['#access'] = FALSE;
+
+  $form['actions']['submit']['#value'] = t('Finish');
+}
+
+function _drupal_cms_installer_password_value(&$element, $input, FormStateInterface $form_state): mixed {
+  // Work around this fact that Drush and `drupal install`, which submit this
+  // form programmatically, assume the password is a password_confirm element.
+  if (is_array($input) && $form_state->isProgrammed()) {
+    $input = $input['pass1'];
+  }
+  return Password::valueCallback($element, $input, $form_state);
 }
 
 /**
@@ -136,46 +235,6 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
 }
 
 /**
- * Programmatically executes core's site configuration form.
- */
-function drupal_cms_installer_configure_site(array &$install_state): ?array {
-  $random_password = (new Random())->machineName();
-  $host = \Drupal::request()->getHost();
-
-  $install_state['forms'] += [
-    'install_configure_form' => [
-      'site_name' => $install_state['parameters']['site_name'],
-      'site_mail' => "no-reply@$host",
-      'account' => [
-        'name' => 'admin',
-        'mail' => "admin@$host",
-        'pass' => [
-          'pass1' => $random_password,
-          'pass2' => $random_password,
-        ],
-      ],
-    ],
-  ];
-  // Temporarily switch to non-interactive mode and programmatically submit
-  // the form.
-  $interactive = $install_state['interactive'];
-  $install_state['interactive'] = FALSE;
-  $result = install_get_form(SiteConfigureForm::class, $install_state);
-  $install_state['interactive'] = $interactive;
-
-  $messenger = \Drupal::messenger();
-  // Clear all previous status messages to avoid clutter.
-  $messenger->deleteByType($messenger::TYPE_STATUS);
-
-  $message = t('Make a note of your login details to access your site later:<br />Username: admin<br />Password: @password', [
-    '@password' => $install_state['forms']['install_configure_form']['account']['pass']['pass1'],
-  ]);
-  $messenger->addStatus($message);
-
-  return $result;
-}
-
-/**
  * Implements hook_library_info_alter().
  */
 function drupal_cms_installer_library_info_alter(array &$libraries, string $extension): void {
@@ -205,12 +264,12 @@ function drupal_cms_installer_library_info_alter(array &$libraries, string $exte
  * @see drupal_install_system()
  */
 function drupal_cms_installer_uninstall_myself(): void {
-  // `drupal_install_system()` sets `profile` in `core.extension` regardless
-  // of whether the profile is actually installed by the module installer.
-  \Drupal::configFactory()
-    ->getEditable('core.extension')
-    ->clear('profile')
-    ->save();
+  \Drupal::service(ModuleInstallerInterface::class)->uninstall([
+    'drupal_cms_installer',
+  ]);
+
+  // Clear all previous status messages to avoid clutter.
+  \Drupal::messenger()->deleteByType(MessengerInterface::TYPE_STATUS);
 }
 
 /**
