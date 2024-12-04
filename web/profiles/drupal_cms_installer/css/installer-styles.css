@@ -18,40 +18,38 @@ a {
   color: var(--gin-color-primary);
 }
 
-.install-page {
-  background: linear-gradient(0.33turn, #ccbaf4, #22a5e5);
+body.install-page {
+  background-color: white;
+  padding-block: 0;
+  padding-inline-end: 24px;
+
+  &::after {
+    content: "";
+    background: linear-gradient(145deg, #077FBA, #162C63);
+    position: fixed;
+    inset-inline-end: 0;
+    inset-block-start: 0;
+    block-size: 100%;
+    inline-size: 24px;
+  }
 }
 
 .cms-installer {
-  display: flex;
-  width: 75%;
-  max-width: 1400px;
-  margin: 0 auto;
-  border: 1px solid transparent;
-  border-radius: 0.5rem;
-  background: #fff;
-  box-shadow: var(--shadow-z3);
   font-family: "Inter", system-ui;
-}
+  padding: var(--gin-spacing-l);
+  min-block-size: 90dvh;
 
-.cms-installer__first {
-  flex: 1;
-  padding: 100px;
-}
+  @media (min-width: 48em) and (min-height: 870px) {
+    padding: 0;
+    max-inline-size: 90vw;
+    margin: auto;
+    display: grid;
+    grid-template-areas: "stack";
 
-.cms-installer__second {
-  position: relative; /* Anchor image. */
-  flex: 1;
-}
-
-.cms-installer__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 0 0.5rem 0.5rem 0;
-  object-fit: cover;
-  object-position: 90% center;
+    & > * {
+      grid-area: stack;
+    }
+  }
 }
 
 .cms-installer__header {
@@ -59,56 +57,60 @@ a {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 50px;
-}
+  align-self: start;
 
-.cms-installer .cms-installer__heading {
-  font-size: 48px;
-  font-weight: 900;
-}
-
-.cms-installer .cms-installer__heading-secondary {
-  font-size: 36px;
-  opacity: 0.7;
-}
-
-.cms-installer__language-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  appearance: none;
-  border: 0;
-  background: transparent;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:before {
-    display: inline-block;
-    width: 20px;
-    aspect-ratio: 1;
-    content: "";
-    background-color: currentColor;
-    -webkit-mask-image: url('../images/translate.svg');
-    mask-image: url('../images/translate.svg');
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
+  @media (max-width: 48em) {
+    margin-block-end: 2.5rem;
   }
 }
 
+.cms-installer__wrapper {
+  display: flex;
+  place-content: center;
+  place-items: center;
+}
+
+.cms-installer__main {
+  inline-size: 100%;
+  max-inline-size: 780px;
+  min-block-size: 500px;
+  position: relative;
+  padding-top: 2rem;
+}
+
+.cms-installer__heading {
+  @media (max-width: 48em) {
+    margin-block: 0;
+    width: 40vw;
+  }
+}
+
+.cms-installer__step {
+  color: #6D7583;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  position: absolute;
+  inset-block-start: 0;
+  margin: 0;
+}
+
 .cms-installer .cms-installer__main-heading {
-  font-size: 62px;
-  font-weight: 900;
-  line-height: 1;
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin-block: 0;
 }
 
 .cms-installer__subhead {
-  font-size: 25px;
-  color: #484848;
+  color: var(--gin-color-text-light);
+  font-size: var(--gin-font-size);
+  margin-block-start: 0;
+}
+
+.cms-installer .form-actions {
+  display: flex;
+  align-items: center;
+  gap:  var(--gin-spacing-xs);
 }
 
 .cms-installer .button {
@@ -116,16 +118,16 @@ a {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  height: 78px;
-  padding-inline: 30px;
   border: solid 1px transparent;
   background: transparent;
   font-family: inherit;
-  font-size: 20px;
-  font-weight: 400;
-  text-decoration: underline;
+  line-height: 1;
+  font-size: var(--gin-font-size-l);
+  color: var(--gin-color-primary);
+  padding: var(--gin-spacing-m);
+  border-radius: var(--gin-border-m);
+  font-weight: 600;
   box-shadow: none;
-  border-radius: 5px;
   cursor: pointer;
 }
 .cms-installer .button:focus {
@@ -133,19 +135,10 @@ a {
   outline-offset: 2px;
 }
 
-.cms-installer .button + .button {
-  margin-inline-start: 10px;
-}
-
 .cms-installer .button--primary {
-  padding: calc(var(--gin-spacing-s) - 2px) var(--gin-spacing-m);
-  border-radius: var(--gin-border-m);
-  box-shadow: 0 1px 2px var(--gin-color-primary-light);
   transition: var(--gin-transition);
-  padding-inline: 50px;
   background-color: var(--gin-color-primary);
   color: var(--gin-color-button-text);
-  text-decoration: none;
 }
 
 .cms-installer .button--primary:active {
@@ -156,16 +149,59 @@ a {
   background-color: var(--gin-color-primary-hover);
 }
 
+.cms-installer .button--next {
+  padding-inline-end: 2.5rem;
+  background-image: url('../images/arrow-right.svg');
+  background-repeat: no-repeat;
+  background-position: center right 1rem;
+}
+
 .cms-installer__form-group {
-  margin-block: 50px;
+  --input-border-radius-size: var(--gin-border-m);
+  --input-border-size: 1.5px;
+
+  margin-block: 2.5rem;
 }
 
-.progress {
-  width: fit-content;
-  margin: 50px auto;
+.cms-installer__form-group label {
+  font-size: var(--gin-font-size);
+  margin-block-end: var(--space-xs);
 }
 
-.progress__percentage {
-  font-size: 16px;
-  font-weight: 600;
+.cms-installer__info {
+  flex: 1 1 100%;
+  color: var(--gin-color-text-light);
+  font-size: var(--gin-font-size);
+  display: flex;
+  gap: .5rem;
+
+  &::before {
+    display: inline-block;
+    aspect-ratio: 1;
+    content: "";
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: 20px;
+    mask-image: url("../images/info.svg");
+  }
+}
+
+.progress .progress {
+  margin-block: 2.5rem;
+}
+
+.cms-installer .progress__track {
+  border: 0;
+  overflow: hidden;
+}
+
+.cms-installer .progress__bar {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+  border: 0;
+  background-color: var(--gin-color-primary);
 }

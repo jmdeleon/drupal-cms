@@ -10,17 +10,15 @@
  */
 #}
 <div class="cms-installer">
-  <div class="cms-installer__first">
-    <header class="cms-installer__header">
-      <h1 class="cms-installer__heading">
-        <span class="cms-installer__heading-primary">{{ 'Drupal'|t }}</span>
-        <span class="cms-installer__heading-secondary">{{ 'CMS'|t }}</span>
-      </h1>
-      <div data-drupal-selector="cms-language-dropdown" class="cms-installer__language">
-        <button type="button" class="cms-installer__language-button">{{ 'Change Language'|t }}</button>
-      </div>
-    </header>
-
+  <header class="cms-installer__header">
+    <h1 class="cms-installer__heading">
+      <img src="{{ images_path }}/drupal-cms-logo.svg" alt="{{ 'Drupal CMS'|t }}" />
+    </h1>
+    <div data-drupal-selector="cms-language-dropdown" class="cms-installer__language">
+      <button type="button" class="cms-installer__language-button">{{ 'Language'|t }}</button>
+    </div>
+  </header>
+  <div class="cms-installer__wrapper">
     {% if page.sidebar_first %}
       <aside class="cms-installer__sidebar-first">
         {{ page.sidebar_first }}
@@ -46,8 +44,5 @@
         {{ page.page_bottom }}
       </footer>
     {% endif %}
-  </div>
-  <div class="cms-installer__second">
-    <img src="{{ images_path }}/cms-installer-bg.webp" alt="{{ 'Woman quietly working on laptop'|t }}" class="cms-installer__bg">
   </div>
 </div>

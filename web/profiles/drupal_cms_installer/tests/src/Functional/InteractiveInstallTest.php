@@ -47,8 +47,9 @@ class InteractiveInstallTest extends InstallerTestBase {
     // Now we should be asked for the site name, with a default value in place
     // for the truly lazy.
     $assert_session->pageTextContains('Give your site a name');
-    $assert_session->elementAttributeExists('named', ['field', 'Site name'], 'required');
-    $assert_session->fieldValueEquals('Site name', 'My awesome site');
+    $site_name_field = $assert_session->fieldExists('Site name');
+    $this->assertTrue($site_name_field->hasAttribute('required'));
+    $this->assertNotEmpty($site_name_field->getValue());
     // We have to use submitForm() to ensure that batch operations, redirects,
     // and so forth in the remaining install tasks get done.
     $this->submitForm(['Site name' => 'Drupal CMS'], 'Next');

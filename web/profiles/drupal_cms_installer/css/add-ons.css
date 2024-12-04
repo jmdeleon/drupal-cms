@@ -1,55 +1,60 @@
 #edit-add-ons {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 20px;
+  gap: var(--gin-spacing-m);
+  padding-block: 1px;
 }
 
 #edit-add-ons .form-item {
   display: inline-block;
   margin: 0;
+  position: relative;
 }
 
 #edit-add-ons [type="checkbox"] {
   position: absolute;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
-  width: 1px;
-  height: 1px;
+  inline-size: 1px;
+  block-size: 1px;
   word-wrap: normal;
 }
 
 #edit-add-ons label {
   display: inline-block;
-  color: #39353e;
-  padding: 15px 20px;
-  border: solid 2px #666;
-  font-size: 26px;
-  border-radius: 10px;
+  border: 1.5px solid var(--gin-border-color);
+  font-size: var(--gin-font-size-l);
+  padding: var(--gin-spacing-m);
+  border-radius: var(--gin-border-m);
+  font-weight: 600;
+  line-height: 1;
   user-select: none;
+  margin: 0;
 }
 
 #edit-add-ons label:hover {
-  background-color: #f8fafe;
-  color: black;
+  color: var(--gin-color-primary);
+  border-color: var(--gin-color-primary);
 }
 
 #edit-add-ons :checked + label {
   position: relative;
-  background-color: var(--gin-color-primary);
-  border-color: var(--gin-color-primary);
-  color: white;
+  border-color: currentcolor;
 }
 
 #edit-add-ons :checked+label:before {
   position: absolute;
-  top: 0;
+  inset-block-start: 0;
   inset-inline-start: 0;
   display: block;
-  width: 40px;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
   aspect-ratio: 1;
   transform: translate(-50%, -50%); /* RTL */
+  text-align: center;
   content: url('../images/check-circle.svg');
-  background-color: white;
+  background-color: black;
+  color: white;
   border-radius: 50%;
 }
 

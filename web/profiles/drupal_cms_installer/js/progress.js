@@ -7,14 +7,15 @@
    */
   Drupal.theme.progressBar = function (id) {
     const escapedId = Drupal.checkPlain(id);
-    return (
-      `<div id="${escapedId}" class="progress" aria-live="polite">` +
-      // '<div class="progress__label">&nbsp;</div>' +
-      '<div class="progress__track"><div class="progress__bar"></div></div>' +
-      // '<div class="progress__percentage"></div>' +
-      // '<div class="progress__description">&nbsp;</div>' +
-      '</div>'
-    );
+    return (`
+      <p class="cms-installer__subhead">This will only take a moment.</p>
+      <div id="${escapedId}" class="progress" aria-live="polite">
+      <div class="progress__label">&nbsp;</div>
+      <div class="progress__track"><div class="progress__bar"></div></div>
+      <div class="progress__percentage visually-hidden"></div>
+      <div class="progress__description visually-hidden">&nbsp;</div>
+      </div>'
+    `);
   };
 
 })(Drupal);

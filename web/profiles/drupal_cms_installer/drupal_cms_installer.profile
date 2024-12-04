@@ -128,6 +128,13 @@ function drupal_cms_installer_form_install_settings_form_alter(array &$form): vo
     $form['settings'][SQLITE_DRIVER]['advanced_options']['database'] = $form['settings'][SQLITE_DRIVER]['database'];
     unset($form['settings'][SQLITE_DRIVER]['database']);
   }
+
+  $form['step'] = [
+    '#prefix' => '<p class="cms-installer__step">',
+    '#markup' => t('Step 3 of 4'),
+    '#suffix' => '</p>',
+    '#weight' => -50,
+  ];
 }
 
 /**
@@ -139,7 +146,12 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
   global $install_state;
 
   $form['#title'] = t('Create your account');
-
+  $form['step'] = [
+    '#prefix' => '<p class="cms-installer__step">',
+    '#markup' => t('Step 4 of 4'),
+    '#suffix' => '</p>',
+    '#weight' => -50,
+  ];
   $form['help'] = [
     '#prefix' => '<p class="cms-installer__subhead">',
     '#markup' => t('Creating an account allows you to log in to your site.'),

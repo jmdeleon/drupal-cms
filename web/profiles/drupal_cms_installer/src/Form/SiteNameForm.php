@@ -25,7 +25,17 @@ final class SiteNameForm extends InstallerFormBase {
     global $install_state;
 
     $form['#title'] = $this->t('Give your site a name');
-    $form['help']['#markup'] = $this->t('You can change this later before publishing your site.');
+    $form['step'] = [
+      '#prefix' => '<p class="cms-installer__step">',
+      '#markup' => $this->t('Step 2 of 4'),
+      '#suffix' => '</p>',
+    ];
+
+    $form['help'] = [
+      '#prefix' => '<p class="cms-installer__subhead">',
+      '#markup' => $this->t('You can change this later.'),
+      '#suffix' => '</p>',
+    ];
 
     $form['site_name'] = [
       '#prefix' => '<div class="cms-installer__form-group">',
@@ -33,7 +43,7 @@ final class SiteNameForm extends InstallerFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Site name'),
       '#required' => TRUE,
-      '#default_value' => $install_state['forms']['install_configure_form']['site_name'] ?? $this->t('My awesome site'),
+      '#default_value' => $install_state['forms']['install_configure_form']['site_name'] ?? $this->t('My Drupal CMS site'),
     ];
     $form['actions'] = [
       '#type' => 'actions',
@@ -41,6 +51,13 @@ final class SiteNameForm extends InstallerFormBase {
         '#type' => 'submit',
         '#value' => $this->t('Next'),
         '#button_type' => 'primary',
+        '#attributes' => [
+          'class' => ['button--next']
+        ],
+      ],
+      'skip' => [
+        '#type' => 'submit',
+        '#value' => $this->t('Skip this step'),
       ],
     ];
 
