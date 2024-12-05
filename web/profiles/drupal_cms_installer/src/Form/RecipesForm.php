@@ -27,15 +27,10 @@ final class RecipesForm extends InstallerFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['#title'] = $this->t('Start creating faster');
-    $form['step'] = [
-      '#prefix' => '<p class="cms-installer__step">',
-      '#markup' => $this->t('Step 1 of 4'),
-      '#suffix' => '</p>',
-    ];
 
     $form['help'] = [
       '#prefix' => '<p class="cms-installer__subhead">',
-      '#markup' => $this->t('You can select pre-configured content features now, or add them later.'),
+      '#markup' => $this->t('You can select pre-configured types of content now, or add them later.'),
       '#suffix' => '</p>',
     ];
 
@@ -74,7 +69,7 @@ final class RecipesForm extends InstallerFormBase {
 
     $form['add_ons']['help'] = [
       '#prefix' => '<p class="cms-installer__info">',
-      '#markup' => $this->t('Don’t see what you’re looking for? You can create your custom type of content later.'),
+      '#markup' => $this->t('Don’t see what you’re looking for? You can set up customized content later.'),
       '#suffix' => '</p>',
       '#weight' => 100,
     ];

@@ -25,11 +25,6 @@ final class SiteNameForm extends InstallerFormBase {
     global $install_state;
 
     $form['#title'] = $this->t('Give your site a name');
-    $form['step'] = [
-      '#prefix' => '<p class="cms-installer__step">',
-      '#markup' => $this->t('Step 2 of 4'),
-      '#suffix' => '</p>',
-    ];
 
     $form['help'] = [
       '#prefix' => '<p class="cms-installer__subhead">',
