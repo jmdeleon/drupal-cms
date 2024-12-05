@@ -16,7 +16,6 @@
     },
     "require": {
         "composer/installers": "^2.3",
-        "cweagans/composer-patches": "^2",
         "drupal/core-composer-scaffold": "^11.1-rc1",
         "drupal/core-project-message": "^11.1-rc1",
         "drupal/core-recommended": "^11.1-rc1",
@@ -44,8 +43,7 @@
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
-            "php-http/discovery": true,
-            "cweagans/composer-patches": true
+            "php-http/discovery": true
         },
         "sort-packages": true,
         "optimize-autoloader": true
