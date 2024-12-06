@@ -41,22 +41,14 @@ final class RecipesForm extends InstallerFormBase {
       '#value_callback' => static::class . '::valueCallback',
     ];
 
-    // @todo Remove this try-catch wrapper when all our components are published
-    //   on Packagist.
-    try {
-      $base_recipe_path = InstalledVersions::getInstallPath('drupal/drupal_cms_starter');
-    }
-    catch (\OutOfBoundsException) {
-      ['install_path' => $base_recipe_path] = InstalledVersions::getRootPackage();
-      $base_recipe_path .= '/recipes/drupal_cms_starter';
-    }
+    $base_recipe_path = InstalledVersions::getInstallPath('drupal/drupal_cms_starter');
     $cookbook_path = dirname($base_recipe_path);
 
     // Read the list of optional recipes from the base recipe's `composer.json`.
     $composer = file_get_contents($base_recipe_path . '/composer.json');
     $composer = json_decode($composer, TRUE, flags: JSON_THROW_ON_ERROR);
-
     $optional_recipes = array_keys($composer['suggest'] ?? []);
+
     foreach ($optional_recipes as $name) {
       $recipe = $cookbook_path . '/' . basename($name) . '/recipe.yml';
       if (file_exists($recipe)) {
