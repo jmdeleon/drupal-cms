@@ -8,3 +8,7 @@ distribution:
   name: Drupal CMS
   install:
     finish_url: '/admin/dashboard/welcome'
+# Explicitly provide an empty list of themes -- this prevents the installer from
+# injecting Stark into it.
+# @see install_profile_info()
+themes: []

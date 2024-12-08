@@ -8,8 +8,10 @@ use Drupal\Core\Extension\ExtensionList;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
+use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
 use Drupal\user\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group drupal_cms_installer
@@ -20,11 +22,6 @@ class InteractiveInstallTest extends InstallerTestBase {
    * {@inheritdoc}
    */
   protected $profile = 'drupal_cms_installer';
-
-  /**
-   * {@inheritdoc}
-   */
-  protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}
@@ -56,6 +53,17 @@ class InteractiveInstallTest extends InstallerTestBase {
 
     // Proceed to the database settings form.
     parent::setUpSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function installDefaultThemeFromClassProperty(ContainerInterface $container): void {
+    $this->assertNull($this->defaultTheme);
+    // The Drupal CMS installer takes a specific step so that Stark will not
+    // be installed, so assert that it is not, in fact, installed.
+    $this->assertTrue($this->isInstalled);
+    $this->assertArrayNotHasKey('stark', $container->get(ThemeHandlerInterface::class)->listInfo());
   }
 
   /**
