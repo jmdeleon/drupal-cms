@@ -49,7 +49,7 @@ class InteractiveInstallTest extends InstallerTestBase {
     $this->assertNotEmpty($site_name_field->getValue());
     // We have to use submitForm() to ensure that batch operations, redirects,
     // and so forth in the remaining install tasks get done.
-    $this->submitForm(['Site name' => 'Drupal CMS'], 'Next');
+    $this->submitForm(['Site name' => 'Installer Test'], 'Next');
 
     // Proceed to the database settings form.
     parent::setUpSettings();
@@ -111,7 +111,7 @@ class InteractiveInstallTest extends InstallerTestBase {
     // The site name and site-wide email address should have been set.
     // @see \Drupal\drupal_cms_installer\Form\SiteNameForm
     $site_config = $this->config('system.site');
-    $this->assertSame('Drupal CMS', $site_config->get('name'));
+    $this->assertSame('Installer Test', $site_config->get('name'));
 
     $host = parse_url($this->baseUrl, PHP_URL_HOST);
     $this->assertSame("no-reply@$host", $site_config->get('mail'));
