@@ -186,6 +186,17 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
     '#value_callback' => '_drupal_cms_installer_password_value',
   ];
 
+  // Turn the timezone selection into a hidden field. This allows it to keep
+  // using automatic client-side timezone detection, without exposing it
+  // directly to the user.
+  $form['date_default_timezone'] = [
+    '#type' => 'hidden',
+    '#default_value' => $form['regional_settings']['date_default_timezone']['#default_value'],
+    '#attributes' => [
+      'class' => ['timezone-detect'],
+    ],
+  ];
+
   // Hide parts of the form we don't care about.
   $form['regional_settings']['#access'] = FALSE;
   $form['update_notifications']['#access'] = FALSE;
