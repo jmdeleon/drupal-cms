@@ -179,7 +179,6 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
     '#suffix' => '</div>',
     '#type' => 'password',
     '#title' => t('Password'),
-    '#description' => t('At least 10 characters, but more is better.'),
     '#required' => TRUE,
     '#default_value' => $install_state['forms']['install_configure_form']['account']['pass']['pass1'] ?? '',
     '#weight' => 20,
