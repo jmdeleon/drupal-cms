@@ -18,7 +18,7 @@ cp -f sites/sites.php sites-backup.php | true
 
 # Install Drupal CMS, and all of the recipes available to the installer, writing them
 # to the cache.
-DRUPAL_CMS_INSTALLER_WRITE_CACHE=1 drush site:install --yes --uri=installer-cache --db-url=sqlite://localhost/installer-cache.sqlite drupal_cms_installer 'drupal_cms_installer_recipes_form.add_ons=*'
+DRUPAL_CMS_INSTALLER_WRITE_CACHE=1 drush site:install --yes --sites-subdir=installer-cache --db-url=sqlite://localhost/installer-cache.sqlite drupal_cms_installer 'drupal_cms_installer_recipes_form.add_ons=*'
 
 cd sites
 # Delete the temporary site directory.
