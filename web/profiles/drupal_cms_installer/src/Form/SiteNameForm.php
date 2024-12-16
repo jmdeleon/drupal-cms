@@ -50,10 +50,6 @@ final class SiteNameForm extends InstallerFormBase {
           'class' => ['button--next']
         ],
       ],
-      'skip' => [
-        '#type' => 'submit',
-        '#value' => $this->t('Skip this step'),
-      ],
     ];
 
     return parent::buildForm($form, $form_state);
