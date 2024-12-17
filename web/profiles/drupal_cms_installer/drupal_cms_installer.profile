@@ -153,11 +153,10 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
     '#type' => 'hidden',
     '#default_value' => $GLOBALS['install_state']['parameters']['site_name'],
   ];
-  // Automatically generate the site email address.
-  $form['site_information']['site_mail'] = [
-    '#type' => 'hidden',
-    '#default_value' => 'no-reply@' . \Drupal::request()->getHost(),
-  ];
+
+  // Use a custom submit handler to set the site email.
+  unset($form['site_information']['site_mail']);
+  $form['#submit'][] = 'drupal_cms_installer_update_site_mail';
 
   $form['admin_account']['#type'] = 'container';
   // `admin` is a sensible name for user 1.
@@ -197,6 +196,16 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
   $form['update_notifications']['#access'] = FALSE;
 
   $form['actions']['submit']['#value'] = t('Finish');
+}
+
+/**
+ * Custom submit handler to update the site email.
+ */
+function drupal_cms_installer_update_site_mail(array &$form, FormStateInterface $form_state): void {
+  \Drupal::configFactory()
+    ->getEditable('system.site')
+    ->set('mail', $form_state->getValue(['account', 'mail']))
+    ->save();
 }
 
 function _drupal_cms_installer_password_value(&$element, $input, FormStateInterface $form_state): mixed {
