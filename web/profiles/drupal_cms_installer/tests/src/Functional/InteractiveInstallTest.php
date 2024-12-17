@@ -112,9 +112,7 @@ class InteractiveInstallTest extends InstallerTestBase {
     // @see \Drupal\drupal_cms_installer\Form\SiteNameForm
     $site_config = $this->config('system.site');
     $this->assertSame('Installer Test', $site_config->get('name'));
-
-    $host = parse_url($this->baseUrl, PHP_URL_HOST);
-    $this->assertSame("no-reply@$host", $site_config->get('mail'));
+    $this->assertSame("hello@good.bye", $site_config->get('mail'));
 
     // Update Status should be installed, and user 1 should be getting its
     // notifications.
