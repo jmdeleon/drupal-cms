@@ -26,7 +26,7 @@ final class RecipesForm extends InstallerFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $form['#title'] = $this->t('Start creating faster');
+    $form['#title'] = $this->t('Get started');
 
     $form['help'] = [
       '#prefix' => '<p class="cms-installer__subhead">',
