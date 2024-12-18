@@ -186,6 +186,7 @@ body.install-page {
     mask-position: center;
     -webkit-mask-size: contain;
     mask-size: 20px;
+    inline-size: 20px;
     mask-image: url("../images/info.svg");
   }
 }

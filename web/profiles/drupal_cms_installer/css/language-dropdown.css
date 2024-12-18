@@ -30,13 +30,13 @@
   &::before {
     -webkit-mask-image: url('../images/translate.svg');
     mask-image: url('../images/translate.svg');
-    width: 20px;
+    inline-size: 20px;
   }
 
   &::after {
     -webkit-mask-image: url('../images/chevron-down.svg');
     mask-image: url('../images/chevron-down.svg');
-    width: 14px;
+    inline-size: 14px;
   }
 }
 
