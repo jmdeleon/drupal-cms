@@ -122,11 +122,19 @@ function drupal_cms_installer_form_install_settings_form_alter(array &$form): vo
   // configuration.
   if (extension_loaded('pdo_sqlite') && array_key_exists(SQLITE_DRIVER, $form['driver']['#options'])) {
     $form['driver']['#default_value'] = SQLITE_DRIVER;
+    $form['driver']['#type'] = 'select';
 
     // The database file path has a sensible default value, so move it into the
     // advanced options.
     $form['settings'][SQLITE_DRIVER]['advanced_options']['database'] = $form['settings'][SQLITE_DRIVER]['database'];
     unset($form['settings'][SQLITE_DRIVER]['database']);
+
+    $form['help'] = [
+      '#prefix' => '<p class="cms-installer__subhead">',
+      '#markup' => t("You don't need to change anything here unless you want to use a different database type."),
+      '#suffix' => '</p>',
+      '#weight' => -50,
+    ];
   }
 }
 
