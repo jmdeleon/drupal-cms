@@ -293,6 +293,14 @@ function drupal_cms_installer_uninstall_myself(): void {
 
   // Clear all previous status messages to avoid clutter.
   \Drupal::messenger()->deleteByType(MessengerInterface::TYPE_STATUS);
+
+  // Invalidate the container in case any stray requests were made during the
+  // install process, which would have bootstrapped Drupal and cached the
+  // install-time container, which is now stale (during the installer, the
+  // container cannot be dumped, which would normally happen during the
+  // container rebuild triggered by uninstalling this profile). We do not want
+  // to redirect into Drupal with a stale container.
+  \Drupal::service('kernel')->invalidateContainer();
 }
 
 /**
