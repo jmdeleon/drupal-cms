@@ -241,6 +241,8 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
   ['install_path' => $cookbook_path] = InstalledVersions::getRootPackage();
   $cookbook_path .= '/recipes';
 
+  $recipe_operations = [];
+
   foreach ($install_state['parameters']['recipes'] as $recipe) {
     $recipe = RecipeLoader::load(
       $cookbook_path . '/' . $recipe,
@@ -249,11 +251,19 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
       // installer performance for first-time users.
       (bool) getenv('DRUPAL_CMS_INSTALLER_WRITE_CACHE'),
     );
+    $recipe_operations = array_merge($recipe_operations, RecipeRunner::toBatchOperations($recipe));
+  }
 
-    foreach (RecipeRunner::toBatchOperations($recipe) as $operation) {
+  // Only do each recipe's batch operations once.
+  foreach ($recipe_operations as $operation) {
+    if (in_array($operation, $batch['operations'], TRUE)) {
+      continue;
+    }
+    else {
       $batch['operations'][] = $operation;
     }
   }
+
   return $batch;
 }
 
