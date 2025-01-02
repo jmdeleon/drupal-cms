@@ -18,7 +18,7 @@ if ! command -v ddev >/dev/null; then
 fi
 
 # Configure DDEV if not already done.
-test -d .ddev || ddev config --project-type=drupal11 --docroot=web --php-version=8.3
+test -d .ddev || ddev config --project-type=drupal11 --docroot=web --php-version=8.3 --ddev-version-constraint=">=1.24.0"
 # Start your engines.
 ddev start
 # Install dependencies if not already done.
