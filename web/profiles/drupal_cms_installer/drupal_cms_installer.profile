@@ -13,6 +13,7 @@ use Drupal\Core\Recipe\RecipeRunner;
 use Drupal\drupal_cms_installer\Form\RecipesForm;
 use Drupal\drupal_cms_installer\Form\SiteNameForm;
 use Drupal\drupal_cms_installer\MessageInterceptor;
+use Drupal\drupal_cms_installer\RecipeAppliedSubscriber;
 use Drupal\drupal_cms_installer\RecipeLoader;
 
 const SQLITE_DRIVER = 'Drupal\sqlite\Driver\Database\sqlite';
@@ -235,6 +236,20 @@ function _drupal_cms_installer_password_value(&$element, $input, FormStateInterf
  *   The batch job definition.
  */
 function drupal_cms_installer_apply_recipes(array &$install_state): array {
+  // If the installer ran before but failed mid-stream, don't reapply any
+  // recipes that were successfully applied.
+  $recipes_to_apply = array_diff(
+    $install_state['parameters']['recipes'],
+    \Drupal::state()->get(RecipeAppliedSubscriber::STATE_KEY, []),
+  );
+
+  // If we've already applied all the chosen recipes, there's nothing to do.
+  // Since we only start applying recipes once `install_profile_modules()` has
+  // finished, we can be safely certain that we already did that step.
+  if (empty($recipes_to_apply)) {
+    return [];
+  }
+
   $batch = install_profile_modules($install_state);
   $batch['title'] = t('Setting up your site');
 
@@ -243,7 +258,7 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
 
   $recipe_operations = [];
 
-  foreach ($install_state['parameters']['recipes'] as $recipe) {
+  foreach ($recipes_to_apply as $recipe) {
     $recipe = RecipeLoader::load(
       $cookbook_path . '/' . $recipe,
       // Only save a cached copy of the recipe if this environment variable is
@@ -300,6 +315,9 @@ function drupal_cms_installer_uninstall_myself(): void {
   \Drupal::service(ModuleInstallerInterface::class)->uninstall([
     'drupal_cms_installer',
   ]);
+
+  // The install is done, so we don't need the list of applied recipes anymore.
+  \Drupal::state()->delete(RecipeAppliedSubscriber::STATE_KEY);
 
   // Clear all previous status messages to avoid clutter.
   \Drupal::messenger()->deleteByType(MessengerInterface::TYPE_STATUS);
