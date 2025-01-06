@@ -199,6 +199,8 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
   // fields visually is the correct approach here.
   // @see core/misc/timezone.js
   $form['regional_settings']['#attributes']['class'][] = 'visually-hidden';
+  // Don't allow the timezone selection to be tab-focused.
+  $form['regional_settings']['date_default_timezone']['#attributes']['tabindex'] = -1;
 
   // We always install Automatic Updates, so we don't need to expose the update
   // notification settings.
