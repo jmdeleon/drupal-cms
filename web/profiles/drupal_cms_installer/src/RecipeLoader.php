@@ -63,15 +63,23 @@ final class RecipeLoader {
       // placeholder with serialized versions that have the placeholder
       // replaced.
       $data = str_replace($matches[0], $matches[1], $data);
-      // If unserialization fails, $recipe will be FALSE (which is covered by
-      // the empty() check below).
-      $recipe = unserialize($data);
-
-      // Immediately invalidate the cache file so that the cache acts like a
-      // flash bag (write once, read once). We assume that we are running as
-      // the owner of the cache directory and everything in it.
-      $file_system->chmod([$cache_dir, $cache_file], 0755);
-      $file_system->remove($cache_file);
+      try {
+        // If unserialization fails, $recipe will be FALSE (which is covered by
+        // the empty() check below).
+        $recipe = unserialize($data);
+      }
+      catch (\Throwable) {
+        // If there was an error trying to load the cached recipe, load it
+        // cleanly.
+        $recipe = FALSE;
+      }
+      finally {
+        // Invalidate the cache file so that the cache acts like a flash bag
+        // (write once, read once). We assume that we are running as the owner
+        // of the cache directory and its contents.
+        $file_system->chmod([$cache_dir, $cache_file], 0755);
+        $file_system->remove($cache_file);
+      }
     }
 
     // We couldn't load the recipe from cache, so load it normally.
