@@ -296,8 +296,6 @@ function drupal_cms_installer_library_info_alter(array &$libraries, string $exte
     $libraries['maintenance-page']['css']['theme']["$base_path/css/fonts.css"] = [];
     $libraries['maintenance-page']['css']['theme']["$base_path/css/installer-styles.css"] = [];
     $libraries['maintenance-page']['css']['theme']["$base_path/css/add-ons.css"] = [];
-    $libraries['maintenance-page']['css']['theme']["$base_path/css/language-dropdown.css"] = [];
-    $libraries['maintenance-page']['js']["$base_path/js/language-dropdown.js"] = [];
     $libraries['maintenance-page']['dependencies'][] = 'core/once';
   }
   if ($extension === 'core') {
