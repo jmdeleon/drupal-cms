@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\drupal_cms_installer\Form;
 
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Defines a form to set the site name.
  */
-final class SiteNameForm extends InstallerFormBase {
+final class SiteNameForm extends FormBase {
 
   /**
    * {@inheritdoc}
@@ -52,7 +53,7 @@ final class SiteNameForm extends InstallerFormBase {
       ],
     ];
 
-    return parent::buildForm($form, $form_state);
+    return $form;
   }
 
   /**

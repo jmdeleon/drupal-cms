@@ -31,8 +31,6 @@ class InteractiveInstallTest extends InstallerTestBase {
   protected function setUpSettings(): void {
     $assert_session = $this->assertSession();
     $assert_session->buttonExists('Skip this step');
-    // The list of languages should be exposed to JavaScript.
-    $this->assertArrayHasKey('languages', $this->getDrupalSettings());
 
     // Choose all the add-ons!
     $page = $this->getSession()->getPage();
@@ -41,8 +39,6 @@ class InteractiveInstallTest extends InstallerTestBase {
     array_walk($optional_recipes, fn ($checkbox) => $checkbox->check());
     $page->pressButton('Next');
 
-    // The list of languages should still be exposed to JavaScript.
-    $this->assertArrayHasKey('languages', $this->getDrupalSettings());
     // Now we should be asked for the site name, with a default value in place
     // for the truly lazy.
     $assert_session->pageTextContains('Give your site a name');
