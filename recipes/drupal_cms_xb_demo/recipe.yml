@@ -1,0 +1,13 @@
+name: Experience Builder
+type: Drupal CMS
+description: A read-only demonstration of the next-generation Experience Builder for Drupal.
+install:
+  - experience_builder
+config:
+  import:
+    experience_builder:
+      - image.style.xb_avatar
+  actions:
+    experience_builder.settings:
+      simpleConfigUpdate:
+        demo_mode: true

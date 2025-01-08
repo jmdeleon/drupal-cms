@@ -255,14 +255,11 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
   $batch = install_profile_modules($install_state);
   $batch['title'] = t('Setting up your site');
 
-  ['install_path' => $cookbook_path] = InstalledVersions::getRootPackage();
-  $cookbook_path .= '/recipes';
-
   $recipe_operations = [];
 
-  foreach ($recipes_to_apply as $recipe) {
+  foreach ($recipes_to_apply as $name) {
     $recipe = RecipeLoader::load(
-      $cookbook_path . '/' . $recipe,
+      InstalledVersions::getInstallPath('drupal/' . $name),
       // Only save a cached copy of the recipe if this environment variable is
       // set. This allows us to ship a pre-primed cache of recipes to improve
       // installer performance for first-time users.
