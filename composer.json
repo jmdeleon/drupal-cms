@@ -31,7 +31,8 @@
         "drupal/drupal_cms_person": "*",
         "drupal/drupal_cms_project": "*",
         "drupal/drupal_cms_seo_tools": "*",
-        "drush/drush": "^13"
+        "drush/drush": "^13",
+        "drupal/project_browser": "@alpha"
     },
     "conflict": {
         "drupal/drupal": "*"
