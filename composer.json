@@ -36,7 +36,8 @@
         "drupal/drupal_cms_project": "*",
         "drupal/drupal_cms_seo_tools": "*",
         "drupal/drupal_cms_xb_demo": "@dev",
-        "drush/drush": "^13"
+        "drush/drush": "^13",
+        "drupal/project_browser": "@alpha"
     },
     "conflict": {
         "drupal/drupal": "*"
