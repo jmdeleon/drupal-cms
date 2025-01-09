@@ -12,10 +12,6 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        "xb_demo": {
-            "type": "path",
-            "url": "recipes/drupal_cms_xb_demo"
         }
     },
     "require": {
@@ -35,7 +31,6 @@
         "drupal/drupal_cms_person": "*",
         "drupal/drupal_cms_project": "*",
         "drupal/drupal_cms_seo_tools": "*",
-        "drupal/drupal_cms_xb_demo": "@dev",
         "drush/drush": "^13"
     },
     "conflict": {
@@ -48,7 +43,6 @@
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
-            "drupal/drupal_cms_xb_demo": true,
             "php-http/discovery": true
         },
         "sort-packages": true,
