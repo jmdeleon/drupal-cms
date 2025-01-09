@@ -11,3 +11,13 @@ config:
     experience_builder.settings:
       simpleConfigUpdate:
         demo_mode: true
+    # Disable all components XB generated during installation. Some components
+    # have two- or three-part identifiers, so we need to disable those
+    # separately.
+    experience_builder.component.*.*:
+      disable: []
+    experience_builder.component.*.*.*:
+      disable: []
+    # Re-enable the components provided by Drupal CMS.
+    experience_builder.component.sdc.drupal_cms_olivero.*:
+      enable: []
