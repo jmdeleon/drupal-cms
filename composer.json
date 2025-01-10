@@ -15,7 +15,7 @@
         },
         "xb_demo": {
             "type": "path",
-            "url": "recipes/drupal_cms_xb_demo"
+            "url": "recipes/xb_demo"
         }
     },
     "require": {
@@ -23,21 +23,25 @@
         "drupal/core-composer-scaffold": "^11.1.1",
         "drupal/core-project-message": "^11.1.1",
         "drupal/core-recommended": "^11.1.1",
-        "drupal/drupal_cms_starter": "*",
-        "drupal/drupal_cms_analytics": "*",
-        "drupal/drupal_cms_accessibility_tools": "*",
-        "drupal/drupal_cms_ai": "*",
-        "drupal/drupal_cms_blog": "*",
-        "drupal/drupal_cms_case_study": "*",
-        "drupal/drupal_cms_events": "*",
-        "drupal/drupal_cms_forms": "*",
-        "drupal/drupal_cms_news": "*",
-        "drupal/drupal_cms_person": "*",
-        "drupal/drupal_cms_project": "*",
-        "drupal/drupal_cms_seo_tools": "*",
-        "drupal/drupal_cms_xb_demo": "@dev",
-        "drush/drush": "^13",
-        "drupal/project_browser": "@alpha"
+        "drupal/dashboard": "@beta",
+        "drupal/drupal_cms_accessibility_tools": "1.x-dev",
+        "drupal/drupal_cms_ai": "1.x-dev",
+        "drupal/drupal_cms_analytics": "1.x-dev",
+        "drupal/drupal_cms_blog": "1.x-dev",
+        "drupal/drupal_cms_case_study": "1.x-dev",
+        "drupal/drupal_cms_events": "1.x-dev",
+        "drupal/drupal_cms_forms": "1.x-dev",
+        "drupal/drupal_cms_news": "1.x-dev",
+        "drupal/drupal_cms_page": "1.x-dev",
+        "drupal/drupal_cms_person": "1.x-dev",
+        "drupal/drupal_cms_project": "1.x-dev",
+        "drupal/drupal_cms_seo_tools": "1.x-dev",
+        "drupal/drupal_cms_starter": "1.x-dev",
+        "drupal/klaro": "@rc",
+        "drupal/project_browser": "@alpha",
+        "drupal/webform": "@beta",
+        "drupal/xb_demo": "*",
+        "drush/drush": "^13"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -49,7 +53,7 @@
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
-            "drupal/drupal_cms_xb_demo": true,
+            "drupal/xb_demo": true,
             "php-http/discovery": true
         },
         "sort-packages": true,

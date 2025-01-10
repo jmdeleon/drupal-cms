@@ -1,5 +1,5 @@
 {
-  "name": "drupal/drupal_cms_xb_demo",
+  "name": "drupal/xb_demo",
   "type": "composer-plugin",
   "description": "A read-only demonstration of the next-generation Experience Builder for Drupal.",
   "require": {
@@ -13,6 +13,5 @@
   "extra": {
     "class": "Drupal\\XbDemo\\Plugin",
     "plugin-optional": true
-  },
-  "version": "dev-main"
+  }
 }
