@@ -19,7 +19,6 @@
         "drupal/core-composer-scaffold": "^11.1.1",
         "drupal/core-project-message": "^11.1.1",
         "drupal/core-recommended": "^11.1.1",
-        "drupal/dashboard": "@beta",
         "drupal/drupal_cms_accessibility_tools": "1.0.x-dev",
         "drupal/drupal_cms_ai": "1.0.x-dev",
         "drupal/drupal_cms_analytics": "1.0.x-dev",
