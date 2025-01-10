@@ -12,10 +12,6 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        "xb_demo": {
-            "type": "path",
-            "url": "recipes/xb_demo"
         }
     },
     "require": {
@@ -36,10 +32,10 @@
         "drupal/drupal_cms_project": "1.x-dev",
         "drupal/drupal_cms_seo_tools": "1.x-dev",
         "drupal/drupal_cms_starter": "1.x-dev",
+        "drupal/experience_builder": "0.x-dev@dev",
         "drupal/klaro": "@rc",
         "drupal/project_browser": "@alpha",
         "drupal/webform": "@beta",
-        "drupal/xb_demo": "*",
         "drush/drush": "^13"
     },
     "conflict": {
@@ -52,7 +48,6 @@
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
-            "drupal/xb_demo": true,
             "php-http/discovery": true
         },
         "sort-packages": true,
@@ -90,5 +85,13 @@
                 "  * Get involved with the Drupal community: https://drupal.org/getting-involved"
             ]
         }
+    },
+    "scripts": {
+        "pre-package-update": "ExperienceBuilderDemo::onPackageUpdate"
+    },
+    "autoload": {
+        "classmap": [
+            "ExperienceBuilderDemo.php"
+        ]
     }
 }
