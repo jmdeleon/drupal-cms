@@ -17,8 +17,15 @@ if ! command -v ddev >/dev/null; then
   exit 1
 fi
 
+NAME=$(basename $PWD)
+# If there are any other DDEV projects in this system with this name, add a numeric suffix.
+declare -i n=$(ddev list | grep --count "$NAME")
+if [ $n > 0 ]; then
+  NAME=$NAME-$(expr $n + 1)
+fi
+
 # Configure DDEV if not already done.
-test -d .ddev || ddev config --project-type=drupal11 --docroot=web --php-version=8.3 --ddev-version-constraint=">=1.24.0"
+test -d .ddev || ddev config --project-type=drupal11 --docroot=web --php-version=8.3 --ddev-version-constraint=">=1.24.0" --project-name="$NAME"
 # Start your engines.
 ddev start
 # Install dependencies if not already done.
