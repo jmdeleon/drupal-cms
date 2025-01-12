@@ -9,12 +9,12 @@ use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Recipe\Recipe;
 use Drupal\Core\Recipe\RecipeRunner;
 use Drupal\drupal_cms_installer\Form\RecipesForm;
 use Drupal\drupal_cms_installer\Form\SiteNameForm;
 use Drupal\drupal_cms_installer\MessageInterceptor;
 use Drupal\drupal_cms_installer\RecipeAppliedSubscriber;
-use Drupal\drupal_cms_installer\RecipeLoader;
 
 const SQLITE_DRIVER = 'Drupal\sqlite\Driver\Database\sqlite';
 
@@ -258,13 +258,8 @@ function drupal_cms_installer_apply_recipes(array &$install_state): array {
   $recipe_operations = [];
 
   foreach ($recipes_to_apply as $name) {
-    $recipe = RecipeLoader::load(
-      InstalledVersions::getInstallPath('drupal/' . $name),
-      // Only save a cached copy of the recipe if this environment variable is
-      // set. This allows us to ship a pre-primed cache of recipes to improve
-      // installer performance for first-time users.
-      (bool) getenv('DRUPAL_CMS_INSTALLER_WRITE_CACHE'),
-    );
+    $recipe = InstalledVersions::getInstallPath('drupal/' . $name);
+    $recipe = Recipe::createFromDirectory($recipe);
     $recipe_operations = array_merge($recipe_operations, RecipeRunner::toBatchOperations($recipe));
   }
 
