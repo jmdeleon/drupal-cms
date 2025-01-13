@@ -1,5 +1,6 @@
 {
     "name": "drupal/cms",
+    "version": "1.x-dev",
     "description": "Drupal with a bunch of useful stuff.",
     "type": "project",
     "license": "GPL-2.0-or-later",
