@@ -1,5 +1,6 @@
 {
     "name": "drupal/cms",
+    "version": "1.0.0",
     "description": "Drupal with a bunch of useful stuff.",
     "type": "project",
     "license": "GPL-2.0-or-later",
@@ -16,27 +17,30 @@
     },
     "require": {
         "composer/installers": "^2.3",
-        "drupal/core-composer-scaffold": "^11.1",
-        "drupal/core-project-message": "^11.1",
-        "drupal/core-recommended": "^11.1",
-        "drupal/drupal_cms_starter": "~1.0.0-rc2",
-        "drupal/drupal_cms_analytics": "~1.0.0-rc2",
-        "drupal/drupal_cms_accessibility_tools": "~1.0.0-rc2",
-        "drupal/drupal_cms_ai": "~1.0.0-rc2",
-        "drupal/drupal_cms_blog": "~1.0.0-rc2",
-        "drupal/drupal_cms_case_study": "~1.0.0-rc2",
-        "drupal/drupal_cms_events": "~1.0.0-rc2",
-        "drupal/drupal_cms_forms": "~1.0.0-rc2",
-        "drupal/drupal_cms_news": "~1.0.0-rc2",
-        "drupal/drupal_cms_person": "~1.0.0-rc2",
-        "drupal/drupal_cms_project": "~1.0.0-rc2",
-        "drupal/drupal_cms_seo_tools": "~1.0.0-rc2",
+        "drupal/core-composer-scaffold": "^11.1.1",
+        "drupal/core-project-message": "^11.1.1",
+        "drupal/core-recommended": "^11.1.1",
+        "drupal/drupal_cms_accessibility_tools": "~1.0.0",
+        "drupal/drupal_cms_ai": "~1.0.0",
+        "drupal/drupal_cms_analytics": "~1.0.0",
+        "drupal/drupal_cms_blog": "~1.0.0",
+        "drupal/drupal_cms_case_study": "~1.0.0",
+        "drupal/drupal_cms_events": "~1.0.0",
+        "drupal/drupal_cms_forms": "~1.0.0",
+        "drupal/drupal_cms_news": "~1.0.0",
+        "drupal/drupal_cms_page": "~1.0.0",
+        "drupal/drupal_cms_person": "~1.0.0",
+        "drupal/drupal_cms_project": "~1.0.0",
+        "drupal/drupal_cms_seo_tools": "~1.0.0",
+        "drupal/drupal_cms_starter": "~1.0.0",
+        "drupal/project_browser": "@alpha",
+        "drupal/webform": "@beta",
         "drush/drush": "^13"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "alpha",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
@@ -55,42 +59,19 @@
             }
         },
         "installer-paths": {
-            "web/core": [
-                "type:drupal-core"
-            ],
-            "web/libraries/{$name}": [
-                "type:drupal-library"
-            ],
-            "web/modules/contrib/{$name}": [
-                "type:drupal-module"
-            ],
-            "web/profiles/contrib/{$name}": [
-                "type:drupal-profile"
-            ],
-            "web/themes/contrib/{$name}": [
-                "type:drupal-theme"
-            ],
-            "drush/Commands/contrib/{$name}": [
-                "type:drupal-drush"
-            ],
-            "web/modules/custom/{$name}": [
-                "type:drupal-custom-module"
-            ],
-            "web/profiles/custom/{$name}": [
-                "type:drupal-custom-profile"
-            ],
-            "recipes/{$name}": [
-                "type:drupal-recipe"
-            ],
-            "web/themes/custom/{$name}": [
-                "type:drupal-custom-theme"
-            ]
+            "web/core": ["type:drupal-core"],
+            "web/libraries/{$name}": ["type:drupal-library"],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "web/profiles/custom/{$name}": ["type:drupal-custom-profile"],
+            "recipes/{$name}": ["type:drupal-recipe"],
+            "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
         "drupal-core-project-message": {
-            "include-keys": [
-                "homepage",
-                "support"
-            ],
+            "include-keys": ["homepage", "support"],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                   </>",
                 "<bg=blue;fg=white>  Congratulations, you’ve installed Drupal CMS!    </>",

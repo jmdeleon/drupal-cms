@@ -2,6 +2,7 @@
 
 namespace Drupal\drupal_cms_installer\Form;
 
+use Drupal\Core\Form\FormBase;
 use Composer\InstalledVersions;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Form\FormStateInterface;
@@ -13,7 +14,7 @@ use Drupal\Core\Render\Element\Checkboxes;
  * @todo Present this as a mini project browser once
  *   https://www.drupal.org/i/3450629 is fixed.
  */
-final class RecipesForm extends InstallerFormBase {
+final class RecipesForm extends FormBase {
 
   /**
    * {@inheritdoc}
@@ -26,7 +27,7 @@ final class RecipesForm extends InstallerFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $form['#title'] = $this->t('Start creating faster');
+    $form['#title'] = $this->t('Get started');
 
     $form['help'] = [
       '#prefix' => '<p class="cms-installer__subhead">',
@@ -83,7 +84,7 @@ final class RecipesForm extends InstallerFormBase {
       ],
       '#type' => 'actions',
     ];
-    return parent::buildForm($form, $form_state);
+    return $form;
   }
 
   /**

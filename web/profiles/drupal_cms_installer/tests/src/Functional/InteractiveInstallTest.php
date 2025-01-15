@@ -9,6 +9,8 @@ use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
+use Drupal\Core\State\StateInterface;
+use Drupal\drupal_cms_installer\RecipeAppliedSubscriber;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -29,8 +31,6 @@ class InteractiveInstallTest extends InstallerTestBase {
   protected function setUpSettings(): void {
     $assert_session = $this->assertSession();
     $assert_session->buttonExists('Skip this step');
-    // The list of languages should be exposed to JavaScript.
-    $this->assertArrayHasKey('languages', $this->getDrupalSettings());
 
     // Choose all the add-ons!
     $page = $this->getSession()->getPage();
@@ -39,8 +39,6 @@ class InteractiveInstallTest extends InstallerTestBase {
     array_walk($optional_recipes, fn ($checkbox) => $checkbox->check());
     $page->pressButton('Next');
 
-    // The list of languages should still be exposed to JavaScript.
-    $this->assertArrayHasKey('languages', $this->getDrupalSettings());
     // Now we should be asked for the site name, with a default value in place
     // for the truly lazy.
     $assert_session->pageTextContains('Give your site a name');
@@ -108,6 +106,9 @@ class InteractiveInstallTest extends InstallerTestBase {
    * Tests basic expectations of a successful Drupal CMS install.
    */
   public function testPostInstallState(): void {
+    // The installer's list of applied recipes should be gone.
+    $this->assertNull($this->container->get(StateInterface::class)->get(RecipeAppliedSubscriber::STATE_KEY));
+
     // The site name and site-wide email address should have been set.
     // @see \Drupal\drupal_cms_installer\Form\SiteNameForm
     $site_config = $this->config('system.site');

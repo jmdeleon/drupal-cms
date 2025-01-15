@@ -9,11 +9,12 @@ use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Recipe\Recipe;
 use Drupal\Core\Recipe\RecipeRunner;
 use Drupal\drupal_cms_installer\Form\RecipesForm;
 use Drupal\drupal_cms_installer\Form\SiteNameForm;
 use Drupal\drupal_cms_installer\MessageInterceptor;
-use Drupal\drupal_cms_installer\RecipeLoader;
+use Drupal\drupal_cms_installer\RecipeAppliedSubscriber;
 
 const SQLITE_DRIVER = 'Drupal\sqlite\Driver\Database\sqlite';
 
@@ -122,11 +123,19 @@ function drupal_cms_installer_form_install_settings_form_alter(array &$form): vo
   // configuration.
   if (extension_loaded('pdo_sqlite') && array_key_exists(SQLITE_DRIVER, $form['driver']['#options'])) {
     $form['driver']['#default_value'] = SQLITE_DRIVER;
+    $form['driver']['#type'] = 'select';
 
     // The database file path has a sensible default value, so move it into the
     // advanced options.
     $form['settings'][SQLITE_DRIVER]['advanced_options']['database'] = $form['settings'][SQLITE_DRIVER]['database'];
     unset($form['settings'][SQLITE_DRIVER]['database']);
+
+    $form['help'] = [
+      '#prefix' => '<p class="cms-installer__subhead">',
+      '#markup' => t("You don't need to change anything here unless you want to use a different database type."),
+      '#suffix' => '</p>',
+      '#weight' => -50,
+    ];
   }
 }
 
@@ -190,6 +199,8 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form, Fo
   // fields visually is the correct approach here.
   // @see core/misc/timezone.js
   $form['regional_settings']['#attributes']['class'][] = 'visually-hidden';
+  // Don't allow the timezone selection to be tab-focused.
+  $form['regional_settings']['date_default_timezone']['#attributes']['tabindex'] = -1;
 
   // We always install Automatic Updates, so we don't need to expose the update
   // notification settings.
@@ -227,25 +238,41 @@ function _drupal_cms_installer_password_value(&$element, $input, FormStateInterf
  *   The batch job definition.
  */
 function drupal_cms_installer_apply_recipes(array &$install_state): array {
+  // If the installer ran before but failed mid-stream, don't reapply any
+  // recipes that were successfully applied.
+  $recipes_to_apply = array_diff(
+    $install_state['parameters']['recipes'],
+    \Drupal::state()->get(RecipeAppliedSubscriber::STATE_KEY, []),
+  );
+
+  // If we've already applied all the chosen recipes, there's nothing to do.
+  // Since we only start applying recipes once `install_profile_modules()` has
+  // finished, we can be safely certain that we already did that step.
+  if (empty($recipes_to_apply)) {
+    return [];
+  }
+
   $batch = install_profile_modules($install_state);
   $batch['title'] = t('Setting up your site');
 
-  ['install_path' => $cookbook_path] = InstalledVersions::getRootPackage();
-  $cookbook_path .= '/recipes';
+  $recipe_operations = [];
 
-  foreach ($install_state['parameters']['recipes'] as $recipe) {
-    $recipe = RecipeLoader::load(
-      $cookbook_path . '/' . $recipe,
-      // Only save a cached copy of the recipe if this environment variable is
-      // set. This allows us to ship a pre-primed cache of recipes to improve
-      // installer performance for first-time users.
-      (bool) getenv('DRUPAL_CMS_INSTALLER_WRITE_CACHE'),
-    );
+  foreach ($recipes_to_apply as $name) {
+    $recipe = InstalledVersions::getInstallPath('drupal/' . $name);
+    $recipe = Recipe::createFromDirectory($recipe);
+    $recipe_operations = array_merge($recipe_operations, RecipeRunner::toBatchOperations($recipe));
+  }
 
-    foreach (RecipeRunner::toBatchOperations($recipe) as $operation) {
+  // Only do each recipe's batch operations once.
+  foreach ($recipe_operations as $operation) {
+    if (in_array($operation, $batch['operations'], TRUE)) {
+      continue;
+    }
+    else {
       $batch['operations'][] = $operation;
     }
   }
+
   return $batch;
 }
 
@@ -264,8 +291,6 @@ function drupal_cms_installer_library_info_alter(array &$libraries, string $exte
     $libraries['maintenance-page']['css']['theme']["$base_path/css/fonts.css"] = [];
     $libraries['maintenance-page']['css']['theme']["$base_path/css/installer-styles.css"] = [];
     $libraries['maintenance-page']['css']['theme']["$base_path/css/add-ons.css"] = [];
-    $libraries['maintenance-page']['css']['theme']["$base_path/css/language-dropdown.css"] = [];
-    $libraries['maintenance-page']['js']["$base_path/js/language-dropdown.js"] = [];
     $libraries['maintenance-page']['dependencies'][] = 'core/once';
   }
   if ($extension === 'core') {
@@ -283,8 +308,19 @@ function drupal_cms_installer_uninstall_myself(): void {
     'drupal_cms_installer',
   ]);
 
+  // The install is done, so we don't need the list of applied recipes anymore.
+  \Drupal::state()->delete(RecipeAppliedSubscriber::STATE_KEY);
+
   // Clear all previous status messages to avoid clutter.
   \Drupal::messenger()->deleteByType(MessengerInterface::TYPE_STATUS);
+
+  // Invalidate the container in case any stray requests were made during the
+  // install process, which would have bootstrapped Drupal and cached the
+  // install-time container, which is now stale (during the installer, the
+  // container cannot be dumped, which would normally happen during the
+  // container rebuild triggered by uninstalling this profile). We do not want
+  // to redirect into Drupal with a stale container.
+  \Drupal::service('kernel')->invalidateContainer();
 }
 
 /**
