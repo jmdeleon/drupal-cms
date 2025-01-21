@@ -22,7 +22,7 @@
 
 #edit-add-ons label {
   display: inline-block;
-  border: 1.5px solid var(--gin-border-color);
+  border: 1.5px solid var(--gin-border-color-form-element);
   font-size: var(--gin-font-size-l);
   padding: var(--gin-spacing-m);
   border-radius: var(--gin-border-m);
