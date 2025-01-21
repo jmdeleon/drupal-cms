@@ -78,7 +78,6 @@
                 "<bg=blue;fg=white>                                                   </>",
                 "",
                 "<bg=yellow;fg=black>Next steps</>:",
-                "  * Run <fg=yellow>./launch-drupal-cms.sh</> to initialize Drupal CMS and open it in a browser.",
                 "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
                 "  * Get support: https://drupal.org/support",
                 "  * Get involved with the Drupal community: https://drupal.org/getting-involved"
