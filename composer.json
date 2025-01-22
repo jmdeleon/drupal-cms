@@ -28,11 +28,11 @@
         "drupal/drupal_cms_events": "~1.0.0",
         "drupal/drupal_cms_forms": "~1.0.0",
         "drupal/drupal_cms_news": "~1.0.1",
-        "drupal/drupal_cms_page": "~1.0.0",
+        "drupal/drupal_cms_page": "~1.0.1",
         "drupal/drupal_cms_person": "~1.0.1",
         "drupal/drupal_cms_project": "~1.0.0",
         "drupal/drupal_cms_seo_tools": "~1.0.1",
-        "drupal/drupal_cms_starter": "~1.0.0",
+        "drupal/drupal_cms_starter": "~1.0.1",
         "drupal/project_browser": "@alpha",
         "drupal/webform": "@beta",
         "drush/drush": "^13"
