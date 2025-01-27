@@ -33,7 +33,6 @@
         "drupal/drupal_cms_project": "^1",
         "drupal/drupal_cms_seo_tools": "^1.0.1",
         "drupal/drupal_cms_starter": "^1.0.1",
-        "drupal/experience_builder": "0.x-dev@dev",
         "drupal/project_browser": "@alpha",
         "drupal/webform": "@beta",
         "drush/drush": "^13"
@@ -84,13 +83,5 @@
                 "  * Get involved with the Drupal community: https://drupal.org/getting-involved"
             ]
         }
-    },
-    "scripts": {
-        "pre-package-update": "ExperienceBuilderDemo::onPackageUpdate"
-    },
-    "autoload": {
-        "classmap": [
-            "ExperienceBuilderDemo.php"
-        ]
     }
 }
