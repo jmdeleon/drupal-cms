@@ -68,6 +68,7 @@ function drupal_cms_installer_theme_form_install_settings_form_alter(array &$for
     '#suffix' => '</p>',
     '#weight' => -50,
   ];
+  $form['driver']['#type'] = 'select';
 }
 
 /**
@@ -97,4 +98,5 @@ function drupal_cms_installer_theme_form_install_configure_form_alter(array &$fo
       '#suffix' => '</div>',
     ];
   }
+  $form['actions']['submit']['#value'] = t('Finish');
 }

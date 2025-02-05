@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\RecipeKit\Installer\Hooks;
 use Drupal\RecipeKit\Installer\Messenger;
 
@@ -25,6 +26,16 @@ function drupal_cms_installer_install_tasks(): array {
  */
 function drupal_cms_installer_install_tasks_alter(array &$tasks, array $install_state): void {
   Hooks::installTasksAlter($tasks, $install_state);
+
+  // The recipe kit doesn't change the title of the batch job that applies all
+  // the recipes, so to override it, we use core's custom string overrides.
+  // We can't use the passed-in $install_state here, because it isn't passed by
+  // reference.
+  $langcode = $GLOBALS['install_state']['parameters']['langcode'];
+  $settings = Settings::getAll();
+  // @see install_profile_modules()
+  $settings["locale_custom_strings_$langcode"]['']['Installing @drupal'] = 'Setting up your site';
+  new Settings($settings);
 }
 
 /**
