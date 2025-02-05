@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\drupal_cms_installer\Functional;
 
 use Drupal\Core\Test\TestSetupTrait;
-use Drupal\drupal_cms_installer\RecipeAppliedSubscriber;
+use Drupal\RecipeKit\Installer\RecipeAppliedSubscriber;
 use Drush\TestTraits\DrushTestTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
