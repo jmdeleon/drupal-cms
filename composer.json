@@ -25,7 +25,7 @@
         "drupal/drupal_cms_analytics": "^1",
         "drupal/drupal_cms_blog": "^1",
         "drupal/drupal_cms_case_study": "^1",
-        "drupal/drupal_cms_events": "^1.0.3",
+        "drupal/drupal_cms_events": "^1",
         "drupal/drupal_cms_forms": "^1",
         "drupal/drupal_cms_news": "^1.0.1",
         "drupal/drupal_cms_page": "^1.0.1",
