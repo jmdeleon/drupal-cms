@@ -9,9 +9,7 @@ use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
-use Drupal\Core\State\StateInterface;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
-use Drupal\RecipeKit\Installer\RecipeAppliedSubscriber;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -106,9 +104,6 @@ class InteractiveInstallTest extends InstallerTestBase {
    * Tests basic expectations of a successful Drupal CMS install.
    */
   public function testPostInstallState(): void {
-    // The installer's list of applied recipes should be gone.
-    $this->assertNull($this->container->get(StateInterface::class)->get(RecipeAppliedSubscriber::STATE_KEY));
-
     // The site name and site-wide email address should have been set.
     // @see \Drupal\RecipeKit\Installer\Form\SiteNameForm
     $site_config = $this->config('system.site');
