@@ -35,6 +35,7 @@
         "drupal/drupal_cms_starter": "~1.0.3",
         "drupal/project_browser": "@alpha",
         "drupal/webform": "@beta",
+        "cweagans/composer-patches": "^1.7",
         "drush/drush": "^13"
     },
     "conflict": {
@@ -45,6 +46,7 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
+            "cweagans/composer-patches": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "php-http/discovery": true
@@ -53,6 +55,7 @@
         "optimize-autoloader": true
     },
     "extra": {
+        "composer-exit-on-patch-failure": true,
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
