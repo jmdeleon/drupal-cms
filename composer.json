@@ -18,7 +18,7 @@
     "require": {
         "composer/installers": "^2.3",
         "drupal/core-composer-scaffold": "^11.2@beta",
-        "drupal/core-project-message": "^11.2@ebta",
+        "drupal/core-project-message": "^11.2@beta",
         "drupal/core-recommended": "^11.2@beta",
         "drupal/drupal_cms_accessibility_tools": "^1",
         "drupal/drupal_cms_ai": "^1.0.1",
