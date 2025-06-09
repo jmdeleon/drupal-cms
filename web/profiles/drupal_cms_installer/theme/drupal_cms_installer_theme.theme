@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Language\LanguageManager;
 
 /**
  * Implements template_preprocess_install_page().
@@ -11,6 +12,12 @@ function drupal_cms_installer_theme_preprocess_install_page(array &$variables): 
   $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
   $variables['theme_path'] = \Drupal::service(FileUrlGeneratorInterface::class)
     ->generateString($theme_path);
+
+  $variables['languages'] = [];
+  foreach (LanguageManager::getStandardLanguageList() as $langcode => [$name]) {
+    $variables['languages'][$langcode] = $name;
+  }
+  asort($variables['languages']);
 }
 
 /**

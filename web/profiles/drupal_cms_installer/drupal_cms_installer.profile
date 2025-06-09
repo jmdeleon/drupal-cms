@@ -34,7 +34,7 @@ function drupal_cms_installer_install_tasks_alter(array &$tasks, array $install_
   $langcode = $GLOBALS['install_state']['parameters']['langcode'];
   $settings = Settings::getAll();
   // @see install_profile_modules()
-  $settings["locale_custom_strings_$langcode"]['']['Installing @drupal'] = 'Setting up your site';
+  $settings["locale_custom_strings_$langcode"]['']['Installing @drupal'] = (string) t('Setting up your site');
   new Settings($settings);
 }
 

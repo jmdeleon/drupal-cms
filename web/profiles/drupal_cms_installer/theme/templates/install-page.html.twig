@@ -18,6 +18,13 @@
   <div class="cms-installer__wrapper">
 
     <main class="cms-installer__main">
+
+      <select name="langcode" class="cms-installer__language-switcher">
+        {% for langcode, name in languages %}
+          <option value="{{ langcode }}">{{ name }}</option>
+        {% endfor %}
+      </select>
+
       {% if title %}
         <h2 class="cms-installer__main-heading">{{ title }}</h2>
       {% endif %}
