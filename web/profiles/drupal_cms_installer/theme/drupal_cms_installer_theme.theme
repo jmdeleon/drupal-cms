@@ -13,11 +13,15 @@ function drupal_cms_installer_theme_preprocess_install_page(array &$variables): 
   $variables['theme_path'] = \Drupal::service(FileUrlGeneratorInterface::class)
     ->generateString($theme_path);
 
-  $variables['languages'] = [];
-  foreach (LanguageManager::getStandardLanguageList() as $langcode => [$name]) {
-    $variables['languages'][$langcode] = $name;
+  // Only show the language switcher if there is no batch job in progress.
+  $batch = &batch_get();
+  if (empty($batch)) {
+    $variables['languages'] = [];
+    foreach (LanguageManager::getStandardLanguageList() as $langcode => [$name]) {
+      $variables['languages'][$langcode] = $name;
+    }
+    asort($variables['languages']);
   }
-  asort($variables['languages']);
 }
 
 /**
