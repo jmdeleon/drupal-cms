@@ -29,7 +29,7 @@
         "drupal/drupal_cms_seo_tools": "^2",
         "drupal/drupal_cms_starter": "^2",
         "drupal/project_browser": "@beta",
-        "drupal/recipe_installer_kit": "^1-alpha4@alpha",
+        "drupal/recipe_installer_kit": "^1-alpha5@dev",
         "drupal/webform": "@beta",
         "drush/drush": "^13"
     },
