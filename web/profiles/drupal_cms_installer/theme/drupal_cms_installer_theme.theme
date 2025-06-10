@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManager;
 
 /**
@@ -17,10 +18,14 @@ function drupal_cms_installer_theme_preprocess_install_page(array &$variables): 
   $batch = &batch_get();
   if (empty($batch)) {
     $variables['languages'] = [];
-    foreach (LanguageManager::getStandardLanguageList() as $langcode => [$name]) {
-      $variables['languages'][$langcode] = $name;
+    foreach (LanguageManager::getStandardLanguageList() as $langcode => $language) {
+      // Pass the language's native name to the template, along with its
+      // direction (if defined).
+      $variables['languages'][$langcode] = [
+        'name' => $language[1],
+        'direction' => $language[2] ?? LanguageInterface::DIRECTION_LTR,
+      ];
     }
-    asort($variables['languages']);
   }
 }
 

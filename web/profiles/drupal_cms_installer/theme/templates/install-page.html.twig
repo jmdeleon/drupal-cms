@@ -21,8 +21,8 @@
 
       {% if languages %}
         <select name="langcode" class="cms-installer__language-switcher">
-          {% for langcode, name in languages %}
-            <option value="{{ langcode }}">{{ name }}</option>
+          {% for langcode, language in languages %}
+            <option dir={{ language.direction }} value="{{ langcode }}">{{ language.name }}</option>
           {% endfor %}
         </select>
       {% endif %}
