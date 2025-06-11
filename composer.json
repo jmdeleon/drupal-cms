@@ -37,7 +37,7 @@
         "drupal/drupal_cms_seo_tools": "^1.0.1",
         "drupal/drupal_cms_starter": "^1.0.3",
         "drupal/project_browser": "@beta",
-        "drupal/recipe_installer_kit": "^1-alpha4@alpha",
+        "drupal/recipe_installer_kit": "^1-alpha5@dev",
         "drupal/webform": "@beta",
         "cweagans/composer-patches": "^1.7",
         "drush/drush": "^13"
