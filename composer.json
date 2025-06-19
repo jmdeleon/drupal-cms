@@ -17,10 +17,10 @@
     },
     "require": {
         "composer/installers": "^2.3",
-        "drupal/core-composer-scaffold": "^11.2@rc",
-        "drupal/core-project-message": "^11.2@rc",
-        "drupal/core-recipe-unpack": "^11.2@rc",
-        "drupal/core-recommended": "^11.2@rc",
+        "drupal/core-composer-scaffold": "^11.2",
+        "drupal/core-project-message": "^11.2",
+        "drupal/core-recipe-unpack": "^11.2",
+        "drupal/core-recommended": "^11.2",
         "drupal/drupal_cms_accessibility_tools": "^2",
         "drupal/drupal_cms_ai": "^2",
         "drupal/drupal_cms_analytics": "^2",
@@ -28,7 +28,7 @@
         "drupal/drupal_cms_seo_tools": "^2",
         "drupal/drupal_cms_starter": "^2",
         "drupal/project_browser": "@beta",
-        "drupal/recipe_installer_kit": "^1-alpha5@alpha",
+        "drupal/recipe_installer_kit": "^1-alpha6@alpha",
         "drupal/webform": "@beta",
         "drush/drush": "^13"
     },
