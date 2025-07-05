@@ -51,7 +51,8 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "drupal/core-recipe-unpack": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "drupal/core-vendor-hardening": true
         },
         "sort-packages": true,
         "optimize-autoloader": true
