@@ -29,7 +29,7 @@
         "drupal/drupal_cms_starter": "^2",
         "drupal/project_browser": "@beta",
         "drupal/recipe_installer_kit": "^1-alpha6@alpha",
-        "drupal/webform": "@beta"
+        "drupal/webform": "6.3.x-dev@dev"
     },
     "require-dev": {
         "drush/drush": "^13"
