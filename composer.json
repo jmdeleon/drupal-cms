@@ -48,8 +48,9 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "drupal/core-recipe-unpack": true,
-            "php-http/discovery": true,
-            "drupal/core-vendor-hardening": true
+            "drupal/core-vendor-hardening": true,
+            "drupal/site_template_helper": true,
+            "php-http/discovery": true
         },
         "bin-dir": "vendor/bin",
         "sort-packages": true,
