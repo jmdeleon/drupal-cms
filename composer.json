@@ -58,6 +58,7 @@
             "php-http/discovery": true,
             "drupal/core-vendor-hardening": true
         },
+        "bin-dir": "vendor/bin",
         "sort-packages": true,
         "optimize-autoloader": true
     },
@@ -95,5 +96,10 @@
         "drupal-core-vendor-hardening": {
             "composer/composer": false
         }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "@php -r \"@unlink('vendor/bin/composer');\""
+        ]
     }
 }
