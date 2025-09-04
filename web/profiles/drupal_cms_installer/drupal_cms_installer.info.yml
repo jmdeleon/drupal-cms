@@ -12,8 +12,11 @@ distribution:
 
 forms:
   - '\Drupal\RecipeKit\Installer\Form\SiteNameForm'
+  - '\Drupal\RecipeKit\Installer\Form\SiteTemplateForm'
 
 recipes:
+  # If the user does not choose a site template, fall back to applying
+  # the default (required) set of recipes.
   required:
     - drupal/drupal_cms_starter
 
