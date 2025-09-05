@@ -39,6 +39,10 @@ class InteractiveInstallTest extends InstallerTestBase {
     // and so forth in the remaining install tasks get done.
     $this->submitForm(['Site name' => 'Installer Test'], 'Next');
 
+    // The next step asks you to choose a site template -- skip this for now.
+    $assert_session->pageTextContains('Choose a site template');
+    $this->submitForm([], 'Skip this step');
+
     // Proceed to the database settings form.
     parent::setUpSettings();
   }
