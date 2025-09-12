@@ -11,11 +11,12 @@ use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
 use Drupal\user\Entity\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @group drupal_cms_installer
- */
+#[Group('drupal_cms_installer')]
+#[IgnoreDeprecations]
 class InteractiveInstallTest extends InstallerTestBase {
 
   /**

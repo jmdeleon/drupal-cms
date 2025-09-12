@@ -6,14 +6,16 @@ namespace Drupal\Tests\drupal_cms_installer\Functional;
 
 use Drupal\Core\Test\TestSetupTrait;
 use Drush\TestTraits\DrushTestTrait;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
-/**
- * @group drupal_cms_installer
- * @requires extension pdo_sqlite
- */
+#[Group('drupal_cms_installer')]
+#[RequiresPhpExtension('pdo_sqlite')]
+#[IgnoreDeprecations]
 class CommandLineInstallTest extends TestCase {
 
   use DrushTestTrait;
