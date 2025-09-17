@@ -1,6 +1,5 @@
 #edit-add-ons {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--gin-spacing-m);
   padding-block: 1px;
 }
@@ -11,7 +10,7 @@
   position: relative;
 }
 
-#edit-add-ons [type="checkbox"] {
+#edit-add-ons input {
   position: absolute;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);

@@ -40,9 +40,10 @@ class InteractiveInstallTest extends InstallerTestBase {
     // and so forth in the remaining install tasks get done.
     $this->submitForm(['Site name' => 'Installer Test'], 'Next');
 
-    // The next step asks you to choose a site template -- skip this for now.
+    // The next step asks you to choose a site template -- choose the blank
+    // starter for now.
     $assert_session->pageTextContains('Choose a site template');
-    $this->submitForm([], 'Skip this step');
+    $this->submitForm(['add_ons' => 'drupal_cms_starter'], 'Next');
 
     // Proceed to the database settings form.
     parent::setUpSettings();

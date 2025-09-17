@@ -69,6 +69,24 @@ function drupal_cms_installer_theme_form_installer_site_name_form_alter(array &$
 /**
  * Implements hook_form_FORM_ID_alter() for installer_recipes_form.
  */
+function drupal_cms_installer_theme_form_installer_site_template_form_alter(array &$form): void {
+  $form['help'] = [
+    '#prefix' => '<p class="cms-installer__subhead">',
+    '#markup' => t('Site templates provide a starting point with styling and features already included. You can customize the look and feel and add new features using Drupal\'s powerful extensibility.'),
+    '#suffix' => '</p>',
+    '#weight' => -100,
+  ];
+  $form['add_ons'] += [
+    '#prefix' => '<div class="cms-installer__form-group">',
+    '#suffix' => '</div>',
+  ];
+  $form['actions']['submit']['#attributes']['class'] = ['button--next'];
+  unset($form['actions']['skip']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for installer_recipes_form.
+ */
 function drupal_cms_installer_theme_form_installer_recipes_form_alter(array &$form): void {
   $form['#title'] = t('Get started');
 
