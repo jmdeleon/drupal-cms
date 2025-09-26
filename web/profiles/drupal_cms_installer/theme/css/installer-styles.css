@@ -47,7 +47,6 @@ body.install-page {
   min-block-size: 100%;
 
   @media (min-width: 78em) {
-    padding-block: 60px;
     padding-inline: 66px;
   }
 
@@ -89,7 +88,7 @@ body.install-page {
   max-inline-size: 780px;
   min-block-size: 500px;
   position: relative;
-  padding-top: 2rem;
+  padding-top: 3rem;
 }
 
 .cms-installer__heading {
@@ -257,6 +256,7 @@ select.cms-installer__language-switcher {
   border: none;
   appearance: none;
   padding-left: 0.6rem;
+  background-color: transparent;
   line-height: 1.5;
 }
 
