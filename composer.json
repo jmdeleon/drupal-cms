@@ -30,7 +30,6 @@
         "drupal/drupal_cms_google_analytics": "^2",
         "drupal/drupal_cms_seo_tools": "^2",
         "drupal/drupal_cms_starter": "^2",
-        "drupal/project_browser": "@beta",
         "drupal/recipe_installer_kit": "^1-alpha8@alpha",
         "drupal/webform": "@beta"
     },
