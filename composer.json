@@ -1,6 +1,6 @@
 {
     "name": "drupal/cms",
-    "version": "1.2.x-dev",
+    "version": "2.0.x-dev",
     "description": "Drupal CMS is a ready-to-use platform built on Drupal core, offering smart defaults to get started quickly and enterprise-grade tools for marketers, designers, and content creators.",
     "type": "project",
     "license": "GPL-2.0-or-later",
@@ -18,25 +18,21 @@
     "require": {
         "composer/composer": "^2.8",
         "composer/installers": "^2.3",
+        "drupal/byte": "^1@alpha",
+        "drupal/canvas": "@rc",
         "drupal/core-composer-scaffold": "^11.2.4",
         "drupal/core-project-message": "^11.2.4",
         "drupal/core-recipe-unpack": "^11.2.4",
         "drupal/core-recommended": "^11.2.4",
         "drupal/core-vendor-hardening": "^11.2.4",
-        "drupal/drupal_cms_accessibility_tools": "^1.2",
-        "drupal/drupal_cms_ai": "^1.2",
-        "drupal/drupal_cms_blog": "^1.2",
-        "drupal/drupal_cms_case_study": "^1.2",
-        "drupal/drupal_cms_events": "^1.2",
-        "drupal/drupal_cms_forms": "^1.2",
-        "drupal/drupal_cms_google_analytics": "^1.2",
-        "drupal/drupal_cms_news": "^1.2",
-        "drupal/drupal_cms_page": "^1.2",
-        "drupal/drupal_cms_person": "^1.2",
-        "drupal/drupal_cms_project": "^1.2",
-        "drupal/drupal_cms_seo_tools": "^1.2",
-        "drupal/drupal_cms_starter": "^1.2",
-        "drupal/recipe_installer_kit": "^1-alpha6@alpha",
+        "drupal/drupal_cms_accessibility_tools": "^2",
+        "drupal/drupal_cms_ai": "^2",
+        "drupal/drupal_cms_forms": "^2",
+        "drupal/drupal_cms_google_analytics": "^2",
+        "drupal/drupal_cms_seo_tools": "^2",
+        "drupal/drupal_cms_starter": "^2",
+        "drupal/mercury": "@alpha",
+        "drupal/recipe_installer_kit": "^1-alpha8@alpha",
         "drupal/webform": "@beta"
     },
     "require-dev": {
@@ -54,8 +50,8 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "drupal/core-recipe-unpack": true,
-            "php-http/discovery": true,
-            "drupal/core-vendor-hardening": true
+            "drupal/core-vendor-hardening": true,
+            "php-http/discovery": true
         },
         "bin-dir": "vendor/bin",
         "sort-packages": true,
@@ -66,6 +62,9 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/example.gitignore": false
             }
         },
         "installer-paths": {

@@ -7,14 +7,15 @@ description: 'Provides install-time tweaks for Drupal CMS. Not to be used in pro
 distribution:
   name: Drupal CMS
   install:
-    finish_url: '/admin/dashboard/welcome'
     theme: drupal_cms_installer_theme
 
 forms:
   - '\Drupal\RecipeKit\Installer\Form\SiteNameForm'
+  - '\Drupal\RecipeKit\Installer\Form\SiteTemplateForm'
 
 recipes:
-  required:
+  # The recipes to apply if the user doesn't choose a site template.
+  default:
     - drupal/drupal_cms_starter
 
 # Explicitly provide an empty list of themes -- this prevents the installer from

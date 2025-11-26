@@ -11,11 +11,12 @@ use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
 use Drupal\user\Entity\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @group drupal_cms_installer
- */
+#[Group('drupal_cms_installer')]
+#[IgnoreDeprecations]
 class InteractiveInstallTest extends InstallerTestBase {
 
   /**
@@ -38,6 +39,11 @@ class InteractiveInstallTest extends InstallerTestBase {
     // We have to use submitForm() to ensure that batch operations, redirects,
     // and so forth in the remaining install tasks get done.
     $this->submitForm(['Site name' => 'Installer Test'], 'Next');
+
+    // The next step asks you to choose a site template -- choose the blank
+    // starter for now.
+    $assert_session->pageTextContains('Choose a site template');
+    $this->submitForm(['add_ons' => 'drupal_cms_starter'], 'Next');
 
     // Proceed to the database settings form.
     parent::setUpSettings();
