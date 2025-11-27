@@ -25,6 +25,7 @@
         "drupal/core-recipe-unpack": "^11.2.4",
         "drupal/core-recommended": "^11.2.4",
         "drupal/core-vendor-hardening": "^11.2.4",
+        "drupal/cva": "@beta",
         "drupal/drupal_cms_accessibility_tools": "^2",
         "drupal/drupal_cms_ai": "^2",
         "drupal/drupal_cms_forms": "^2",
