@@ -37,7 +37,7 @@
         "drupal/webform": "@beta"
     },
     "require-dev": {
-        "drush/drush": "^13.6.1"
+        "drush/drush": "^13.7"
     },
     "conflict": {
         "drupal/drupal": "*"
