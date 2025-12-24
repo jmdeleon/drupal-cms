@@ -6,7 +6,6 @@ namespace Drupal\Tests\drupal_cms_installer\Functional;
 
 use Drupal\Core\Extension\ExtensionList;
 use Drupal\Core\Extension\ModuleExtensionList;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
@@ -110,7 +109,7 @@ class InteractiveInstallTest extends InstallerTestBase {
 
     // Update Status should be installed, and user 1 should be getting its
     // notifications.
-    $this->assertTrue($this->container->get(ModuleHandlerInterface::class)->moduleExists('update'));
+    $this->assertTrue(\Drupal::moduleHandler()->moduleExists('update'));
     $account = User::load(1);
     $this->assertContains($account->getEmail(), $this->config('update.settings')->get('notification.emails'));
     $this->assertContains('administrator', $account->getRoles());
@@ -122,8 +121,8 @@ class InteractiveInstallTest extends InstallerTestBase {
 
     // Ensure that there are non-core extensions installed, which proves that
     // recipes were applied during site installation.
-    $this->assertContribInstalled($this->container->get(ModuleExtensionList::class));
-    $this->assertContribInstalled($this->container->get(ThemeExtensionList::class));
+    $this->assertContribInstalled(\Drupal::service(ModuleExtensionList::class));
+    $this->assertContribInstalled(\Drupal::service(ThemeExtensionList::class));
 
     // Antibot prevents non-JS functional tests from logging in, so disable it.
     $this->config('antibot.settings')->set('form_ids', [])->save();
