@@ -115,7 +115,7 @@ class InteractiveInstallTest extends InstallerTestBase {
     $this->assertContains('administrator', $account->getRoles());
 
     // The installer should have uninstalled itself.
-    $this->assertFalse($this->container->getParameter('install_profile'));
+    $this->assertFalse(\Drupal::installProfile());
     // The theme used in the installer, should not be installed.
     $this->assertArrayNotHasKey('drupal_cms_installer_theme', $this->config('core.extension')->get('theme'));
 
