@@ -14,6 +14,11 @@ forms:
   - '\Drupal\RecipeKit\Installer\Form\SiteTemplateForm'
 
 recipes:
+  required:
+    # Ensure the administrator role exists regardless of which site template
+    # is chosen.
+    - drupal/core:administrator_role
+
   # The recipes to apply if the user doesn't choose a site template.
   default:
     - drupal/drupal_cms_starter

@@ -9,6 +9,7 @@ use Drush\TestTraits\DrushTestTrait;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -16,6 +17,7 @@ use Symfony\Component\Process\Process;
 #[Group('drupal_cms_installer')]
 #[RequiresPhpExtension('pdo_sqlite')]
 #[IgnoreDeprecations]
+#[RunTestsInSeparateProcesses]
 class CommandLineInstallTest extends TestCase {
 
   use DrushTestTrait;
@@ -58,6 +60,9 @@ class CommandLineInstallTest extends TestCase {
   }
 
   private function assertPostInstallState(): void {
+    // The administrator role should exist.
+    $this->drush('config:get', ['user.role.administrator'], cd: $this->root);
+
     // Confirm that there's no install profile.
     $this->drush('core:status', options: ['field' => 'install-profile'], cd: $this->root);
     $this->assertEmpty($this->getOutput());

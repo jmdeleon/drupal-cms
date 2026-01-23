@@ -9,13 +9,16 @@ use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\FunctionalTests\Installer\InstallerTestBase;
+use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 #[Group('drupal_cms_installer')]
 #[IgnoreDeprecations]
+#[RunTestsInSeparateProcesses]
 class InteractiveInstallTest extends InstallerTestBase {
 
   /**
@@ -101,6 +104,9 @@ class InteractiveInstallTest extends InstallerTestBase {
    * Tests basic expectations of a successful Drupal CMS install.
    */
   public function testPostInstallState(): void {
+    // The administrator role should exist.
+    $this->assertInstanceOf(Role::class, Role::load('administrator'));
+
     // The site name and site-wide email address should have been set.
     // @see \Drupal\RecipeKit\Installer\Form\SiteNameForm
     $site_config = $this->config('system.site');
@@ -116,7 +122,7 @@ class InteractiveInstallTest extends InstallerTestBase {
 
     // The installer should have uninstalled itself.
     $this->assertFalse(\Drupal::installProfile());
-    // The theme used in the installer, should not be installed.
+    // The installer's theme should not be installed.
     $this->assertArrayNotHasKey('drupal_cms_installer_theme', $this->config('core.extension')->get('theme'));
 
     // Ensure that there are non-core extensions installed, which proves that
@@ -124,8 +130,6 @@ class InteractiveInstallTest extends InstallerTestBase {
     $this->assertContribInstalled(\Drupal::service(ModuleExtensionList::class));
     $this->assertContribInstalled(\Drupal::service(ThemeExtensionList::class));
 
-    // Antibot prevents non-JS functional tests from logging in, so disable it.
-    $this->config('antibot.settings')->set('form_ids', [])->save();
     // Log out so we can test that user 1's credentials were properly saved.
     $this->drupalLogout();
 
