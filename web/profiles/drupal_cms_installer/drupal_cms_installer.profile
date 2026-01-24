@@ -1,9 +1,18 @@
 <?php
 
+/**
+ * @internal
+ * Everything in this file is internal to Drupal CMS and may be changed or
+ * removed at any time, without warning. External code should not interact with
+ * this file at all.
+ */
+
 declare(strict_types=1);
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Site\Settings;
+use Drupal\RecipeKit\Installer\Form\AlterBase;
+use Drupal\RecipeKit\Installer\Form\SiteTemplateForm;
 use Drupal\RecipeKit\Installer\Hooks;
 use Drupal\RecipeKit\Installer\Messenger;
 
@@ -26,6 +35,8 @@ function drupal_cms_installer_install_tasks(array &$install_state): array {
  */
 function drupal_cms_installer_install_tasks_alter(array &$tasks, array $install_state): void {
   Hooks::installTasksAlter($tasks, $install_state);
+
+  $tasks[SiteTemplateForm::class]['function'] = SiteTemplateFormAlter::class;
 
   // The recipe kit doesn't change the title of the batch job that applies all
   // the recipes, so to override it, we use core's custom string overrides.
@@ -52,4 +63,27 @@ function drupal_cms_installer_form_install_configure_form_alter(array &$form): v
   // We always install Automatic Updates, so we don't need to expose the update
   // notification settings.
   $form['update_notifications']['#access'] = FALSE;
+}
+
+final class SiteTemplateFormAlter extends AlterBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected const string DECORATES = SiteTemplateForm::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state): array {
+    $form = parent::buildForm($form, $form_state);
+
+    // Hide the site template starter kit. It's a special case because it's
+    // technically a site template, but it's a stub that's only meant for
+    // developers to install at the command line with Drush.
+    $key = 'drupal_cms_site_template_base';
+    unset($form['add_ons']['#options'][$key], $form['add_ons'][$key]);
+    return $form;
+  }
+
 }

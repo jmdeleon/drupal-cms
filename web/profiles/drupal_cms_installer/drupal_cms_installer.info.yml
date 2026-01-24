@@ -10,8 +10,8 @@ distribution:
     theme: drupal_cms_installer_theme
 
 forms:
-  - '\Drupal\RecipeKit\Installer\Form\SiteNameForm'
-  - '\Drupal\RecipeKit\Installer\Form\SiteTemplateForm'
+  - 'Drupal\RecipeKit\Installer\Form\SiteNameForm'
+  - 'Drupal\RecipeKit\Installer\Form\SiteTemplateForm'
 
 recipes:
   required:
