@@ -2,9 +2,9 @@
 
 /**
  * @internal
- * Everything in this file is internal to Drupal CMS and may be changed or
- * removed at any time, without warning. External code should not interact with
- * this file at all.
+ *   Everything in this file is internal to Drupal CMS and may be changed or
+ *   removed at any time, without warning. External code should not interact
+ *   with this file at all.
  */
 
 declare(strict_types=1);
@@ -36,6 +36,8 @@ function drupal_cms_installer_install_tasks(array &$install_state): array {
 function drupal_cms_installer_install_tasks_alter(array &$tasks, array $install_state): void {
   Hooks::installTasksAlter($tasks, $install_state);
 
+  // The site template form is shown during the early installer, so we need a
+  // decorator class to alter it.
   $tasks[SiteTemplateForm::class]['function'] = SiteTemplateFormAlter::class;
 
   // The recipe kit doesn't change the title of the batch job that applies all
