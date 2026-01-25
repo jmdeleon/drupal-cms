@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 #[Group('drupal_cms_installer')]
+#[Group('drupal_cms')]
 #[IgnoreDeprecations]
 #[RunTestsInSeparateProcesses]
 class InteractiveInstallTest extends InstallerTestBase {

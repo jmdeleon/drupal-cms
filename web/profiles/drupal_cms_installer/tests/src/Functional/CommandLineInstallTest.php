@@ -15,6 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 #[Group('drupal_cms_installer')]
+#[Group('drupal_cms')]
 #[RequiresPhpExtension('pdo_sqlite')]
 #[IgnoreDeprecations]
 #[RunTestsInSeparateProcesses]

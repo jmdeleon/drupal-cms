@@ -9,6 +9,7 @@ use Drupal\Tests\UnitTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('drupal_cms_installer')]
+#[Group('drupal_cms')]
 final class ScaffoldTest extends UnitTestCase {
 
   /**
