@@ -27,9 +27,8 @@ After the installer is complete, you will land on the dashboard.
 
 ## Documentation
 
-Coming soon ... [We're working on Drupal CMS specific documentation](https://www.drupal.org/project/drupal_cms/issues/3454527).
-
-In the meantime, learn more about managing a Drupal-based application in the [Drupal User Guide](https://www.drupal.org/docs/user_guide/en/index.html).
+* [Drupal CMS User Guide](https://project.pages.drupalcode.org/drupal_cms/)
+* Learn more about managing a Drupal-based application in the [Drupal User Guide](https://www.drupal.org/docs/user_guide/en/index.html).
 
 ## Contributing
 
