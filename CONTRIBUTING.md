@@ -8,7 +8,7 @@ Drupal CMS has adopted a [code of conduct](https://www.drupal.org/dcoc) that we 
 
 Drupal CMS is set up as a single repository, which is automatically split into multiple smaller projects. (See [monorepo.tools](https://monorepo.tools/) for more information on this approach.)
 
-To contribute to Drupal CMS, you'll need [DDEV](https://ddev.com) version 1.24.0 or later (if you already have DDEV installed, run `ddev --version` to check the version). DDEV is the Drupal community's Docker-based development environment of choice and it sets up everything you need easily. [Install DDEV on your machine](https://ddev.com/get-started), then run the following commands to spin up the development branch of Drupal CMS:
+To contribute to Drupal CMS, you'll need [DDEV](https://ddev.com) version 1.25.0 or later (if you already have DDEV installed, run `ddev --version` to check the version). DDEV is the Drupal community's Docker-based development environment of choice and it sets up everything you need easily. [Install DDEV on your machine](https://ddev.com/get-started), then run the following commands to spin up the development branch of Drupal CMS:
 
 ```shell
 git clone git@git.drupal.org:project/drupal_cms.git
