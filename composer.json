@@ -49,6 +49,7 @@
             "drupal/core-project-message": true,
             "drupal/core-recipe-unpack": true,
             "drupal/core-vendor-hardening": true,
+            "drupal/site_template_helper": true,
             "php-http/discovery": true
         },
         "bin-dir": "vendor/bin",
