@@ -66,10 +66,15 @@ body.install-page {
   justify-content: space-between;
   flex-wrap: wrap;
   align-self: start;
-  max-inline-size: 1200px;
 
   @media (max-width: 78em) and (min-height: 870px) {
     margin-block-end: 2.5rem;
+  }
+  @media (min-width: 1248px) {
+    max-width: 60vw;
+  }
+  @media (min-width: 1450px) {
+    max-width: 50vw;
   }
 }
 
