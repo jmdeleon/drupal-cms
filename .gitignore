@@ -32,3 +32,8 @@ $RECYCLE.BIN/
 
 # PHP scripts scaffolded into the web root by Drupal core.
 /web/*.php
+
+# Project-level authentication and authorization credentials for Composer.
+# Per https://getcomposer.org/doc/articles/authentication-for-private-packages.md#authentication-in-auth-json-per-project,
+# this should never be under version control.
+/auth.json
