@@ -23,9 +23,9 @@ DDEV project config lives in `.ddev/config.yaml`. Use `.ddev/config.local.yaml` 
 ## Guardrails
 
 - Do not commit secrets or machine-local overrides such as `.env`, `settings.local.php`, or `.ddev/config.local.yaml`.
-- Do not commit `vendor/` or uploaded files under `sites/*/files`.
+- Do not commit `vendor/` or uploaded files under `web/sites/*/files`.
 - Do not edit Drupal core or contributed projects in place.
-- Put custom code in `modules/custom` and `themes/custom`.
+- Put custom code in `web/modules/custom` and `web/themes/custom`.
 
 ## References
 
