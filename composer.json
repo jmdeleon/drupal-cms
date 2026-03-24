@@ -18,25 +18,25 @@
     "require": {
         "composer/composer": "^2.8",
         "composer/installers": "^2.3",
-        "drupal/byte": "^1@alpha",
-        "drupal/canvas": "@rc",
-        "drupal/core-composer-scaffold": "^11.2.4",
-        "drupal/core-project-message": "^11.2.4",
-        "drupal/core-recipe-unpack": "^11.2.4",
-        "drupal/core-recommended": "^11.2.4",
-        "drupal/core-vendor-hardening": "^11.2.4",
+        "drupal/byte": "^1",
+        "drupal/core-composer-scaffold": "^11.3",
+        "drupal/core-project-message": "^11.3",
+        "drupal/core-recipe-unpack": "^11.3",
+        "drupal/core-recommended": "^11.3",
+        "drupal/core-vendor-hardening": "^11.3",
         "drupal/drupal_cms_accessibility_tools": "^2",
         "drupal/drupal_cms_ai": "^2",
         "drupal/drupal_cms_forms": "^2",
         "drupal/drupal_cms_google_analytics": "^2",
+        "drupal/drupal_cms_installer": "^2",
         "drupal/drupal_cms_seo_tools": "^2",
+        "drupal/drupal_cms_site_template_base": "^1@dev",
         "drupal/drupal_cms_starter": "^2",
-        "drupal/mercury": "@alpha",
-        "drupal/recipe_installer_kit": "^1-alpha8@alpha",
+        "drupal/haven": "^1",
         "drupal/webform": "@beta"
     },
     "require-dev": {
-        "drush/drush": "^13.6.1"
+        "drush/drush": "^13.7"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -51,6 +51,7 @@
             "drupal/core-project-message": true,
             "drupal/core-recipe-unpack": true,
             "drupal/core-vendor-hardening": true,
+            "drupal/site_template_helper": true,
             "php-http/discovery": true
         },
         "bin-dir": "vendor/bin",
@@ -65,7 +66,10 @@
             },
             "file-mapping": {
                 "[web-root]/example.gitignore": false
-            }
+            },
+            "allowed-packages": [
+                "drupal/drupal_cms_seo_tools"
+            ]
         },
         "installer-paths": {
             "web/core": ["type:drupal-core"],
