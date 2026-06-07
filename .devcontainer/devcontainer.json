@@ -1,7 +1,7 @@
 {
     "image": "mcr.microsoft.com/devcontainers/base:debian-12",
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+        "ghcr.io/devcontainers/features/docker-in-docker:3.0.1": {
             "version": "latest"
         },
         "ghcr.io/ddev/ddev/install-ddev:latest": {}
